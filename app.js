@@ -418,7 +418,13 @@ function initModalActions() {
   if (feedbackForm) {
     feedbackForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      alert('Terima kasih! Persetujuan / Catatan proposal proyek Qohiroh Digital Ecosystem telah berhasil dicatat.');
+      const nama = feedbackForm.querySelector('input[type="text"]').value || 'Perwakilan Qohiroh Center';
+      const opsi = feedbackForm.querySelector('select').value || 'Persetujuan Arsitektur 2 Website';
+      const catatan = feedbackForm.querySelector('textarea').value || '-';
+
+      const waText = encodeURIComponent(`Halo Dar Dev,\n\nNama: ${nama}\nTahap Pilihan: ${opsi}\nCatatan: ${catatan}\n\nSaya ingin mendiskusikan rancangan 2 Website Qohiroh Center.`);
+      window.open(`https://wa.me/6281311506025?text=${waText}`, '_blank');
+      
       if (modalOverlay) modalOverlay.classList.remove('active');
     });
   }
