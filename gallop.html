@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GALLOP — Proposal Website Layanan Tambahan Jamaah Umroh (Dar Dev)</title>
-  <meta name="description" content="Pusat katalog layanan dan kebutuhan jamaah selama berada di Arab Saudi (Makkah & Madinah). Persembahan blueprint dari Dar Dev.">
+  <title>GALLOP — Project Requirements Document (PRD) & Blueprint Platform</title>
+  <meta name="description" content="Dokumen PRD resmi & blueprint rancangan platform katalog layanan tambahan umroh & transportasi dari Dar Dev.">
   
   <link rel="stylesheet" href="style.css">
   <style>
@@ -75,6 +75,25 @@
       white-space: pre-wrap;
     }
 
+    .table-spec-box {
+      background: #ffffff;
+      border-radius: 16px;
+      border: 1.5px solid var(--brown-border);
+      padding: 20px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .tech-pill {
+      background: var(--brown-soft);
+      border: 1px solid var(--brown-border);
+      color: var(--brown-dark);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 800;
+      display: inline-block;
+    }
+
     @media (max-width: 768px) {
       .catalog-card-grid {
         grid-template-columns: 1fr !important;
@@ -87,7 +106,7 @@
   <!-- NOTICE BANNER -->
   <div class="notice-banner">
     <svg class="icon-outline" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
-    BLUEPRINT PLATFORM GALLOP: Pusat Katalog Layanan Tambahan Jamaah Umroh di Arab Saudi (Makkah & Madinah) persembahan <strong>Dar Dev</strong>.
+    DOKUMEN PRD RESMI GALLOP: Spesifikasi Lengkap Next.js, Drizzle ORM, SQLite & Integrasi WhatsApp wa.me persembahan <strong>Dar Dev</strong>.
   </div>
 
   <!-- NAVBAR MINIMALIST -->
@@ -97,18 +116,17 @@
         <a href="index.html" class="brand-clean">Dar Dev <span>× GALLOP</span></a>
 
         <ul class="nav-links-clean">
-          <li><a href="#overview">Gambaran</a></li>
-          <li><a href="#konsep">Konsep</a></li>
-          <li><a href="#kategori">Kategori</a></li>
-          <li><a href="#search-filter">Pencarian</a></li>
-          <li><a href="#katalog">Katalog</a></li>
+          <li><a href="#overview">Overview</a></li>
+          <li><a href="#prd-spec">Dokumen PRD</a></li>
+          <li><a href="#user-flow">User Flow</a></li>
+          <li><a href="#tech-stack">Tech Stack</a></li>
+          <li><a href="#database-prd">Schema DB</a></li>
+          <li><a href="#katalog">Katalog Live</a></li>
           <li><a href="#wa-booking">WA Booking</a></li>
-          <li><a href="#roadmap">Fase</a></li>
-          <li><a href="#manfaat">Manfaat</a></li>
         </ul>
 
         <div class="nav-btn-wrapper">
-          <a href="https://wa.me/6281311506025?text=Halo%20Dar%20Dev,%20saya%20ingin%20mendiskusikan%20rancangan%20platform%20GALLOP%20Umroh" target="_blank" class="btn-brown-outline nav-cta-btn">Diskusi WA ↗</a>
+          <a href="https://wa.me/6281311506025?text=Halo%20Dar%20Dev,%20saya%20setuju%20dengan%20PRD%20GALLOP%20dan%20ingin%20memulai%20diskusi" target="_blank" class="btn-brown-outline nav-cta-btn">Diskusi WA ↗</a>
         </div>
       </div>
     </div>
@@ -117,141 +135,273 @@
   <!-- HERO SECTION -->
   <section class="hero-clean" id="overview">
     <div class="container">
-      <span class="gallop-badge">Rancangan Website Layanan Tambahan Jamaah Umroh</span>
+      <span class="gallop-badge">PRD & ARSITEKTUR PLATFORM — GALLOP</span>
 
-      <h1 class="hero-clean-title">Pusat Katalog & Kebutuhan Jamaah di Arab Saudi</h1>
+      <h1 class="hero-clean-title">Project Requirements Document (PRD) GALLOP</h1>
       
       <p class="hero-clean-desc">
-        Website khusus dari <strong>Dar Dev</strong> yang menyatukan seluruh kebutuhan jamaah selama di Makkah & Madinah dalam satu tempat — Dari Transportasi, Kuliner, Aktivitas, Dokumentasi, hingga Oleh-oleh secara terorganisir dan transparan.
+        Blueprint spesifikasi teknis lengkap <strong>GALLOP</strong> — Platform katalog pusat layanan tambahan jamaah umroh (Transportasi, Kuliner, Berkuda, Padel, Dokumentasi, & Laundry) dengan teknologi Next.js App Router, Drizzle ORM, SQLite, & integrasi <code>wa.me</code>.
       </p>
 
       <div class="hero-actions-row">
-        <a href="#katalog" class="btn-brown-solid">Lihat Katalog Simulasi ↓</a>
-        <a href="https://wa.me/6281311506025?text=Halo%20Dar%20Dev,%20saya%20ingin%20mendiskusikan%20rancangan%20platform%20GALLOP%20Umroh" target="_blank" class="btn-brown-outline">Diskusikan Bersama Dar Dev ↗</a>
+        <a href="#prd-spec" class="btn-brown-solid">Baca Detail PRD ↓</a>
+        <a href="https://wa.me/6281311506025?text=Halo%20Dar%20Dev,%20saya%20setuju%20dengan%20PRD%20GALLOP%20dan%20ingin%20memulai%20diskusi" target="_blank" class="btn-brown-outline">Diskusikan Bersama Dar Dev ↗</a>
       </div>
 
       <!-- HERO SUMMARY METRICS GRID -->
       <div class="hero-summary-grid" style="grid-template-columns: repeat(3, 1fr); max-width: 980px;">
         <div class="summary-card-clean">
-          <span class="summary-card-label">01. GAMBARAN UMUM</span>
+          <span class="summary-card-label">01. INTENSI UTAMA</span>
           <div class="summary-card-val" style="margin-top: 6px;">
-            <span>Terorganisir & Mudah Dibandingkan</span>
-            <span style="font-size: 11.5px; color: var(--brown-muted); font-weight: 500; display: block; margin-top: 2px;">Solusi pengganti informasi tersebar di WA & grup jamaah.</span>
+            <span>Katalog Pusat Terintegrasi</span>
+            <span style="font-size: 11.5px; color: var(--brown-muted); font-weight: 500; display: block; margin-top: 2px;">Penghilang kebingungan jamaah dalam mencari layanan di Saudi.</span>
           </div>
         </div>
 
         <div class="summary-card-clean" style="background: var(--brown-soft);">
-          <span class="summary-card-label">02. KONSEP SIMPEL</span>
+          <span class="summary-card-label">02. TECH STACK SPEC</span>
           <div class="summary-card-val" style="margin-top: 6px;">
-            <span>Cari → Pilih → WhatsApp</span>
-            <span style="font-size: 11.5px; color: var(--brown-body); font-weight: 500; display: block; margin-top: 2px;">Transaksi langsung via WA tanpa perlu pelajari aplikasi baru.</span>
+            <span>Next.js + Drizzle + SQLite</span>
+            <span style="font-size: 11.5px; color: var(--brown-body); font-weight: 500; display: block; margin-top: 2px;">Tailwind CSS, shadcn/ui, Turso DB, & Vercel deployment.</span>
           </div>
         </div>
 
         <div class="summary-card-clean">
-          <span class="summary-card-label">03. MOBILE FIRST & TANPA LOGIN</span>
+          <span class="summary-card-label">03. INTEGRASI WA.ME</span>
           <div class="summary-card-val" style="margin-top: 6px;">
-            <span>Akses Cepat & Ringkas</span>
-            <span style="font-size: 11.5px; color: var(--brown-muted); font-weight: 500; display: block; margin-top: 2px;">Jamaah dapat mencari layanan tanpa perlu registrasi rumit.</span>
+            <span>Tanpa Login & Tanpa API Fee</span>
+            <span style="font-size: 11.5px; color: var(--brown-muted); font-weight: 500; display: block; margin-top: 2px;">Auto-generate pesan WhatsApp langsung ke penyedia jasa.</span>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- SECTION 1 & 2: GAMBARAN UMUM & KONSEP UTAMA -->
-  <section class="section-clean" id="konsep">
+  <!-- SECTION: SPESIFIKASI DOKUMEN PRD LENGKAP -->
+  <section class="section-clean" id="prd-spec">
     <div class="container">
       <div class="section-head-clean">
-        <h2 class="head-title">Satu Tempat untuk Berbagai Kebutuhan Jamaah</h2>
+        <h2 class="head-title">Rincian Dokumen Kebutuhan Sistem (PRD)</h2>
         <p class="head-desc">
-          Saat ini informasi layanan tambahan umroh masih tersebar di grup WhatsApp & Instagram. GALLOP hadir merapikan semuanya menjadi katalog digital terstruktur.
+          Penjabaran komprehensif seluruh kebutuhan fitur, alur pemakaian, arsitektur data, dan spesifikasi teknologi.
         </p>
       </div>
 
-      <div class="grid-2-compact" style="gap: 20px;">
+      <div class="grid-2-compact" style="gap: 20px; margin-bottom: 24px;">
+        <!-- BAGIAN 1: OVERVIEW & TUJUAN -->
         <div class="clean-box">
-          <span style="font-size: 11.5px; font-weight: 900; color: var(--brown-muted); text-transform: uppercase;">01 — Gambaran Umum</span>
-          <h3 style="font-size: 20px; font-weight: 900; color: var(--brown-dark); margin: 6px 0 10px;">Mengapa GALLOP Dibutuhkan?</h3>
-          <p style="font-size: 13.5px; color: var(--brown-body); line-height: 1.55; margin-bottom: 12px;">
-            Selama di Makkah & Madinah, jamaah sering memerlukan layanan pendukung. GALLOP menyediakan katalog lengkap agar jamaah dapat membandingkan harga & fasilitas dengan mudah.
+          <span style="font-size: 11.5px; font-weight: 900; color: var(--brown-muted); text-transform: uppercase;">1. Overview (Ringkasan)</span>
+          <h3 style="font-size: 20px; font-weight: 900; color: var(--brown-dark); margin: 6px 0 10px;">Latar Belakang & Tujuan Utama</h3>
+          <p style="font-size: 13.5px; color: var(--brown-body); line-height: 1.6; margin-bottom: 12px;">
+            Banyak jamaah umroh di Makkah & Madinah butuh layanan tambahan (berkuda, padel, kopi, antar bandara). Informasi yang tersebar buat jamaah bingung. GALLOP hadir sebagai **pusat katalog terorganisir**.
           </p>
-          <div style="background: var(--bg-cream); padding: 12px; border-radius: 10px; border: 1px solid var(--brown-border); font-size: 12.5px; color: var(--brown-dark); font-weight: 700;">
-            "Dulu: Tanya kontak driver/fotografer di grup WA → Sekarang: Buka GALLOP → Cari → Hubungi via WA."
-          </div>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 6px; font-size: 12.5px; color: var(--brown-body);">
+            <li>✓ Pertemuan langsung jamaah & penyedia jasa.</li>
+            <li>✓ Transparansi harga (SAR/Rp), jadwal, lokasi & rating.</li>
+            <li>✓ Pemesanan cepat & praktis via WhatsApp tanpa login.</li>
+          </ul>
         </div>
 
+        <!-- BAGIAN 2: REQUIREMENTS & CORE FEATURES -->
         <div class="clean-box highlight">
-          <span style="font-size: 11.5px; font-weight: 900; color: var(--brown-dark); text-transform: uppercase;">02 — Konsep Utama</span>
-          <h3 style="font-size: 20px; font-weight: 900; color: var(--brown-dark); margin: 6px 0 10px;">Alur Penggunaan Sangat Sederhana</h3>
-          <p style="font-size: 13.5px; color: var(--brown-body); line-height: 1.55; margin-bottom: 14px;">
-            Sistem dibuat tanpa checkout online rumit. Jamaah cukup memilih layanan dan langsung terhubung dengan penyedia via WhatsApp.
-          </p>
-          <div class="flow-banner-pill" style="background: white;">
-            <span>Cari Layanan</span> &nbsp;→&nbsp; <span>Lihat Detail & Rating</span> &nbsp;→&nbsp; <span>Pilih</span> &nbsp;→&nbsp; <span>Chat via WhatsApp</span>
+          <span style="font-size: 11.5px; font-weight: 900; color: var(--brown-dark); text-transform: uppercase;">2 & 3. Core Features</span>
+          <h3 style="font-size: 20px; font-weight: 900; color: var(--brown-dark); margin: 6px 0 10px;">Fitur Utama Fase 1 & Fase 2</h3>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 8px; font-size: 13px; color: var(--brown-body);">
+            <li><strong>Fase 1 (Katalog & Pencarian):</strong> Katalog utama, pencarian kata kunci, filter kategori/harga/lokasi, & halaman detail layanan.</li>
+            <li><strong>Fase 2 (Pesan WA & Profil Vendor):</strong> Form rincian pesanan, generator auto-text `wa.me`, profil penyedia, serta rating & ulasan jamaah ⭐ 1–5.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION: USER FLOW (9 TAHAP ALUR PEMAKAIAN) -->
+  <section class="section-clean bg-subtle" id="user-flow">
+    <div class="container">
+      <div class="section-head-clean">
+        <h2 class="head-title">Alur Pemakaian (9-Step User Flow PRD)</h2>
+        <p class="head-desc">
+          Alur sederhana tanpa registrasi: Dari memilih layanan hingga mengirim pesan otomatis ke WhatsApp penyedia.
+        </p>
+      </div>
+
+      <div style="background: white; border-radius: 20px; padding: 28px; border: 1.5px solid var(--brown-border); box-shadow: var(--shadow-sm);">
+        <div class="grid-3-compact" style="gap: 14px;">
+          <div style="background: var(--bg-cream); padding: 14px; border-radius: 12px; border: 1px solid var(--brown-border);">
+            <strong style="font-size: 13px; color: var(--brown-dark); display: block; margin-bottom: 2px;">1. Buka Website</strong>
+            <span style="font-size: 11.5px; color: var(--brown-muted);">Pengguna membuka GALLOP & melihat katalog.</span>
+          </div>
+
+          <div style="background: var(--bg-cream); padding: 14px; border-radius: 12px; border: 1px solid var(--brown-border);">
+            <strong style="font-size: 13px; color: var(--brown-dark); display: block; margin-bottom: 2px;">2. Cari & Filter</strong>
+            <span style="font-size: 11.5px; color: var(--brown-muted);">Cari kata kunci, kategori, atau filter harga.</span>
+          </div>
+
+          <div style="background: var(--bg-cream); padding: 14px; border-radius: 12px; border: 1px solid var(--brown-border);">
+            <strong style="font-size: 13px; color: var(--brown-dark); display: block; margin-bottom: 2px;">3. Lihat Detail Layanan</strong>
+            <span style="font-size: 11.5px; color: var(--brown-muted);">Cek foto, deskripsi, harga, jadwal, & lokasi.</span>
+          </div>
+
+          <div style="background: var(--bg-cream); padding: 14px; border-radius: 12px; border: 1px solid var(--brown-border);">
+            <strong style="font-size: 13px; color: var(--brown-dark); display: block; margin-bottom: 2px;">4. Buka Profil Penyedia</strong>
+            <span style="font-size: 11.5px; color: var(--brown-muted);">Baca rating ⭐, ulasan, & layanan lain vendor.</span>
+          </div>
+
+          <div style="background: var(--bg-cream); padding: 14px; border-radius: 12px; border: 1px solid var(--brown-border);">
+            <strong style="font-size: 13px; color: var(--brown-dark); display: block; margin-bottom: 2px;">5. Klik Pesan via WA</strong>
+            <span style="font-size: 11.5px; color: var(--brown-muted);">Tekan tombol booking WhatsApp di halaman detail.</span>
+          </div>
+
+          <div style="background: var(--bg-cream); padding: 14px; border-radius: 12px; border: 1px solid var(--brown-border);">
+            <strong style="font-size: 13px; color: var(--brown-dark); display: block; margin-bottom: 2px;">6. Isi Tanggal & Catatan</strong>
+            <span style="font-size: 11.5px; color: var(--brown-muted);">Masukkan jam, jumlah orang, & permintaan khusus.</span>
+          </div>
+
+          <div style="background: var(--bg-cream); padding: 14px; border-radius: 12px; border: 1px solid var(--brown-border);">
+            <strong style="font-size: 13px; color: var(--brown-dark); display: block; margin-bottom: 2px;">7. Cek Ringkasan</strong>
+            <span style="font-size: 11.5px; color: var(--brown-muted);">Periksa kembali rincian pesanan & data pemesan.</span>
+          </div>
+
+          <div style="background: var(--bg-cream); padding: 14px; border-radius: 12px; border: 1px solid var(--brown-border);">
+            <strong style="font-size: 13px; color: var(--brown-dark); display: block; margin-bottom: 2px;">8. Tekan Kirim ke WA</strong>
+            <span style="font-size: 11.5px; color: var(--brown-muted);">Aplikasi WhatsApp terbuka dengan pesan terformat.</span>
+          </div>
+
+          <div style="background: var(--brown-soft); padding: 14px; border-radius: 12px; border: 1.5px solid var(--brown-dark);">
+            <strong style="font-size: 13px; color: var(--brown-dark); display: block; margin-bottom: 2px;">9. Transaksi Selesai</strong>
+            <span style="font-size: 11.5px; color: var(--brown-dark); font-weight: 700;">Konfirmasi langsung dengan vendor di WhatsApp.</span>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- SECTION 3: KATEGORI UTAMA LAYANAN -->
-  <section class="section-clean bg-subtle" id="kategori">
+  <!-- SECTION: TECH STACK ARCHITECTURE -->
+  <section class="section-clean" id="tech-stack">
     <div class="container">
       <div class="section-head-clean">
-        <h2 class="head-title">6 Kategori Utama Layanan Jamaah</h2>
+        <h2 class="head-title">Tech Stack & Arsitektur Sistem</h2>
         <p class="head-desc">
-          Semua kebutuhan jamaah di Makkah & Madinah terkelompokkan dalam kategori jernih dari Halaman Utama.
+          Teknologi modern yang dipakai untuk performa tinggi, SEO optimal, & kemudahan pemeliharaan.
+        </p>
+      </div>
+
+      <div class="grid-3-compact" style="margin-bottom: 24px;">
+        <div class="clean-box">
+          <span class="tech-pill" style="margin-bottom: 8px;">FRONTEND</span>
+          <h4 style="font-size: 17px; font-weight: 900; color: var(--brown-dark); margin-bottom: 6px;">Next.js (App Router) + Tailwind CSS</h4>
+          <p style="font-size: 12.5px; color: var(--brown-muted);">Kerangka website ramah SEO dengan UI komponen shadcn/ui yang cepat & mobile-first.</p>
+        </div>
+
+        <div class="clean-box">
+          <span class="tech-pill" style="margin-bottom: 8px;">BACKEND & DATABASE</span>
+          <h4 style="font-size: 17px; font-weight: 900; color: var(--brown-dark); margin-bottom: 6px;">Next.js Server Actions + Drizzle ORM</h4>
+          <p style="font-size: 12.5px; color: var(--brown-muted);">Penyimpanan data ringan dengan SQLite (Turso / libSQL untuk produksi di Vercel).</p>
+        </div>
+
+        <div class="clean-box">
+          <span class="tech-pill" style="margin-bottom: 8px;">INTEGRASI & DEPLOYMENT</span>
+          <h4 style="font-size: 17px; font-weight: 900; color: var(--brown-dark); margin-bottom: 6px;">Integrasi wa.me + Vercel Hosting</h4>
+          <p style="font-size: 12.5px; color: var(--brown-muted);">Membuka WhatsApp otomatis tanpa API fee berbayar dengan rilis instant di Vercel.</p>
+        </div>
+      </div>
+
+      <!-- MERMAID ARCHITECTURE BOX -->
+      <div style="background: var(--bg-cream); border-radius: 18px; padding: 24px; border: 1.5px solid var(--brown-border);">
+        <h3 style="font-size: 16px; font-weight: 800; color: var(--brown-dark); margin-bottom: 12px; text-align: center;">Diagram Arsitektur Sistem Diagram</h3>
+        <div style="display: flex; gap: 8px; align-items: center; justify-content: center; background: white; padding: 14px 20px; border-radius: 50px; font-size: 12px; font-weight: 700; color: var(--brown-dark); flex-wrap: wrap; border: 1px solid var(--brown-border);">
+          <span>Pengguna</span>
+          <span>→</span>
+          <span>Frontend Next.js</span>
+          <span>→</span>
+          <span>Server Actions</span>
+          <span>→</span>
+          <span>Drizzle ORM</span>
+          <span>→</span>
+          <span>Database SQLite</span>
+          <span>→</span>
+          <span>Integrasi wa.me</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION: DATABASE SCHEMAS (PROVIDERS, SERVICES, REVIEWS) -->
+  <section class="section-clean bg-subtle" id="database-prd">
+    <div class="container">
+      <div class="section-head-clean">
+        <h2 class="head-title">Database Schemas (Struktur SQLite / Drizzle ORM)</h2>
+        <p class="head-desc">
+          3 Tabel Utama pendukung sistem GALLOP sesuai spesifikasi PRD resmi:
         </p>
       </div>
 
       <div class="grid-3-compact">
-        <div style="background: white; padding: 18px; border-radius: 14px; border: 1.5px solid var(--brown-border);">
-          <div style="font-size: 24px; margin-bottom: 6px;">🚐</div>
-          <strong style="font-size: 15px; color: var(--brown-dark); display: block; margin-bottom: 2px;">Transportasi & Antar Jemput</strong>
-          <span style="font-size: 12px; color: var(--brown-muted);">Private Car, GMC, Bus, antar jemput Bandara Jeddah / Madinah & City Tour.</span>
+        <!-- TABEL 1: PROVIDERS -->
+        <div class="table-spec-box">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border-bottom: 1.5px solid var(--brown-border); padding-bottom: 8px;">
+            <span style="font-family: monospace; font-weight: 900; font-size: 15px; color: var(--brown-dark);">providers</span>
+            <span style="font-size: 11px; font-weight: 800; background: var(--brown-soft); padding: 2px 8px; border-radius: 4px;">Penyedia Jasa</span>
+          </div>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 6px; font-family: monospace; font-size: 12px; color: var(--brown-body);">
+            <li>🔹 <strong>id</strong>: INTEGER (PK)</li>
+            <li>🔹 <strong>name</strong>: TEXT</li>
+            <li>🔹 <strong>phone</strong>: TEXT (WA Tujuan)</li>
+            <li>🔹 <strong>location</strong>: TEXT</li>
+            <li>🔹 <strong>opening_hours</strong>: TEXT</li>
+            <li>🔹 <strong>description</strong>: TEXT</li>
+            <li>🔹 <strong>created_at</strong>: TIMESTAMP</li>
+          </ul>
         </div>
 
-        <div style="background: white; padding: 18px; border-radius: 14px; border: 1.5px solid var(--brown-border);">
-          <div style="font-size: 24px; margin-bottom: 6px;">🐎</div>
-          <strong style="font-size: 15px; color: var(--brown-dark); display: block; margin-bottom: 2px;">Aktivitas & Olahraga</strong>
-          <span style="font-size: 12px; color: var(--brown-muted);">Berkuda di Madinah, Desert ATV, Padel Makkah, & wisata alam.</span>
+        <!-- TABEL 2: SERVICES -->
+        <div class="table-spec-box">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border-bottom: 1.5px solid var(--brown-border); padding-bottom: 8px;">
+            <span style="font-family: monospace; font-weight: 900; font-size: 15px; color: var(--brown-dark);">services</span>
+            <span style="font-size: 11px; font-weight: 800; background: var(--brown-soft); padding: 2px 8px; border-radius: 4px;">Katalog Layanan</span>
+          </div>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 5px; font-family: monospace; font-size: 11.5px; color: var(--brown-body);">
+            <li>🔹 <strong>id</strong>: INTEGER (PK)</li>
+            <li>🔹 <strong>provider_id</strong>: INTEGER (FK)</li>
+            <li>🔹 <strong>name</strong>: TEXT</li>
+            <li>🔹 <strong>category</strong>: TEXT</li>
+            <li>🔹 <strong>description</strong>: TEXT</li>
+            <li>🔹 <strong>price</strong>: INTEGER (Rp / SAR)</li>
+            <li>🔹 <strong>duration</strong>: TEXT</li>
+            <li>🔹 <strong>location</strong>: TEXT</li>
+            <li>🔹 <strong>schedule</strong>: TEXT</li>
+            <li>🔹 <strong>image_url</strong>: TEXT</li>
+            <li>🔹 <strong>created_at</strong>: TIMESTAMP</li>
+          </ul>
         </div>
 
-        <div style="background: white; padding: 18px; border-radius: 14px; border: 1.5px solid var(--brown-border);">
-          <div style="font-size: 24px; margin-bottom: 6px;">☕</div>
-          <strong style="font-size: 15px; color: var(--brown-dark); display: block; margin-bottom: 2px;">Kuliner & Coffee Shop</strong>
-          <span style="font-size: 12px; color: var(--brown-muted);">Rekomendasi kopi khas Arab, resto Nusantara Makkah & Madinah.</span>
-        </div>
-
-        <div style="background: white; padding: 18px; border-radius: 14px; border: 1.5px solid var(--brown-border);">
-          <div style="font-size: 24px; margin-bottom: 6px;">📸</div>
-          <strong style="font-size: 15px; color: var(--brown-dark); display: block; margin-bottom: 2px;">Dokumentasi & Fotografi</strong>
-          <span style="font-size: 12px; color: var(--brown-muted);">Jasa fotografer & videografer profesional area Masjidil Haram & Nabawi.</span>
-        </div>
-
-        <div style="background: white; padding: 18px; border-radius: 14px; border: 1.5px solid var(--brown-border);">
-          <div style="font-size: 24px; margin-bottom: 6px;">🛍</div>
-          <strong style="font-size: 15px; color: var(--brown-dark); display: block; margin-bottom: 2px;">Oleh-oleh & Belanja</strong>
-          <span style="font-size: 12px; color: var(--brown-muted);">Pusat kurma Ajwa Madinah, Zamzam, parfum Oud & pengiriman ke hotel.</span>
-        </div>
-
-        <div style="background: white; padding: 18px; border-radius: 14px; border: 1.5px solid var(--brown-border);">
-          <div style="font-size: 24px; margin-bottom: 6px;">🧳</div>
-          <strong style="font-size: 15px; color: var(--brown-dark); display: block; margin-bottom: 2px;">Kebutuhan Jamaah & Laundry</strong>
-          <span style="font-size: 12px; color: var(--brown-muted);">Express hotel laundry, rental stroller anak & kursi roda.</span>
+        <!-- TABEL 3: REVIEWS -->
+        <div class="table-spec-box">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border-bottom: 1.5px solid var(--brown-border); padding-bottom: 8px;">
+            <span style="font-family: monospace; font-weight: 900; font-size: 15px; color: var(--brown-dark);">reviews</span>
+            <span style="font-size: 11px; font-weight: 800; background: var(--brown-soft); padding: 2px 8px; border-radius: 4px;">Rating & Ulasan</span>
+          </div>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 6px; font-family: monospace; font-size: 12px; color: var(--brown-body);">
+            <li>🔹 <strong>id</strong>: INTEGER (PK)</li>
+            <li>🔹 <strong>provider_id</strong>: INTEGER (FK)</li>
+            <li>🔹 <strong>author_name</strong>: TEXT</li>
+            <li>🔹 <strong>author_phone</strong>: TEXT (Opsional)</li>
+            <li>🔹 <strong>rating</strong>: INTEGER (1-5 ⭐)</li>
+            <li>🔹 <strong>comment</strong>: TEXT</li>
+            <li>🔹 <strong>created_at</strong>: TIMESTAMP</li>
+          </ul>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- SECTION 4 & 5: PENCARIAN, FILTER & KATALOG INTERAKTIF -->
-  <section class="section-clean" id="search-filter">
+  <!-- SECTION: KATALOG INTERAKTIF & SEARCH SHOWCASE -->
+  <section class="section-clean" id="katalog">
     <div class="container">
       <div class="section-head-clean">
-        <h2 class="head-title">Pencarian & Katalog Layanan Interaktif</h2>
+        <h2 class="head-title">Demonstrasi Katalog Layanan (Fase 1)</h2>
         <p class="head-desc">
-          Jamaah dapat memfilter layanan berdasarkan Kota (Makkah / Madinah), Kategori, Harga (SAR), & Rating.
+          Jamaah dapat memfilter layanan berdasarkan kata kunci, kategori, & lokasi.
         </p>
       </div>
 
@@ -260,7 +410,7 @@
         <div style="display: flex; gap: 10px; flex-wrap: wrap;">
           <input type="text" id="gallop-search-input" class="erd-search-clean" style="max-width: 100%; flex: 1;" placeholder="Cari layanan (cth: Berkuda di Madinah, Transportasi Jeddah, Fotografer Makkah)...">
           <select id="gallop-city-filter" style="padding: 10px 16px; border-radius: 50px; border: 1.5px solid var(--brown-border); font-size: 13px; font-weight: 700; color: var(--brown-dark); outline: none;">
-            <option value="all">📍 Semua Kota</option>
+            <option value="all">📍 Semua Lokasi</option>
             <option value="madinah">Madinah</option>
             <option value="makkah">Makkah</option>
             <option value="jeddah">Jeddah</option>
@@ -274,7 +424,7 @@
         <div class="catalog-item-card">
           <div>
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-              <span class="catalog-tag">🐎 Aktivitas</span>
+              <span class="catalog-tag">🐎 Olahraga</span>
               <span style="font-size: 12px; font-weight: 800; color: var(--brown-dark);">⭐ 4.8</span>
             </div>
             <h4 style="font-size: 16px; font-weight: 800; color: var(--brown-dark); margin-bottom: 4px;">Horse Riding Experience Madinah</h4>
@@ -317,76 +467,28 @@
             <a href="#wa-booking" class="btn-brown-solid" style="width: 100%; justify-content: center; padding: 8px 14px; font-size: 12px;">Detail & Booking WA ↗</a>
           </div>
         </div>
-
-        <!-- ITEM 4 -->
-        <div class="catalog-item-card">
-          <div>
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-              <span class="catalog-tag">☕ Kuliner</span>
-              <span style="font-size: 12px; font-weight: 800; color: var(--brown-dark);">⭐ 4.7</span>
-            </div>
-            <h4 style="font-size: 16px; font-weight: 800; color: var(--brown-dark); margin-bottom: 4px;">Traditional Saudi Coffee & Culinary Tour</h4>
-            <span style="font-size: 12px; color: var(--brown-muted); display: block; margin-bottom: 10px;">📍 Madinah • Vendor: Hijaz Flavor Co.</span>
-          </div>
-          <div>
-            <div class="price-sar" style="margin-bottom: 10px;">Mulai 75 SAR</div>
-            <a href="#wa-booking" class="btn-brown-solid" style="width: 100%; justify-content: center; padding: 8px 14px; font-size: 12px;">Detail & Booking WA ↗</a>
-          </div>
-        </div>
-
-        <!-- ITEM 5 -->
-        <div class="catalog-item-card">
-          <div>
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-              <span class="catalog-tag">🛍 Oleh-oleh</span>
-              <span style="font-size: 12px; font-weight: 800; color: var(--brown-dark);">⭐ 4.9</span>
-            </div>
-            <h4 style="font-size: 16px; font-weight: 800; color: var(--brown-dark); margin-bottom: 4px;">Ajwa Premium Dates & Souvenir Hotel Delivery</h4>
-            <span style="font-size: 12px; color: var(--brown-muted); display: block; margin-bottom: 10px;">📍 Makkah / Madinah • Vendor: Madinah Date Center</span>
-          </div>
-          <div>
-            <div class="price-sar" style="margin-bottom: 10px;">Mulai 120 SAR</div>
-            <a href="#wa-booking" class="btn-brown-solid" style="width: 100%; justify-content: center; padding: 8px 14px; font-size: 12px;">Detail & Booking WA ↗</a>
-          </div>
-        </div>
-
-        <!-- ITEM 6 -->
-        <div class="catalog-item-card">
-          <div>
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-              <span class="catalog-tag">🧳 Kebutuhan</span>
-              <span style="font-size: 12px; font-weight: 800; color: var(--brown-dark);">⭐ 4.8</span>
-            </div>
-            <h4 style="font-size: 16px; font-weight: 800; color: var(--brown-dark); margin-bottom: 4px;">Express Hotel Laundry & Stroller Rental</h4>
-            <span style="font-size: 12px; color: var(--brown-muted); display: block; margin-bottom: 10px;">📍 Makkah • Vendor: Haram Care Services</span>
-          </div>
-          <div>
-            <div class="price-sar" style="margin-bottom: 10px;">Mulai 45 SAR</div>
-            <a href="#wa-booking" class="btn-brown-solid" style="width: 100%; justify-content: center; padding: 8px 14px; font-size: 12px;">Detail & Booking WA ↗</a>
-          </div>
-        </div>
       </div>
     </div>
   </section>
 
-  <!-- SECTION 9: SIMULATOR FORM PEMESANAN WHATSAPP -->
+  <!-- SECTION: SIMULATOR PEMESANAN WHATSAPP (FASE 2) -->
   <section class="section-clean bg-subtle" id="wa-booking">
     <div class="container">
       <div class="section-head-clean">
-        <h2 class="head-title">Simulasi Pemesanan via WhatsApp (Tanpa Login)</h2>
+        <h2 class="head-title">Simulasi Pemesanan via WhatsApp (Fase 2)</h2>
         <p class="head-desc">
-          Jamaah cukup mengisi form singkat, lalu sistem membuatkan ringkasan pesan otomatis yang langsung terkirim ke WhatsApp penyedia jasa.
+          Formulir rincian pesanan yang secara otomatis membuat teks `wa.me` ke nomor penyedia jasa.
         </p>
       </div>
 
       <div class="grid-2-compact" style="gap: 20px;">
         <!-- FORM SIMULATOR -->
         <div class="clean-box">
-          <h3 style="font-size: 18px; font-weight: 900; color: var(--brown-dark); margin-bottom: 12px;">Form Pemesanan Ringkas</h3>
+          <h3 style="font-size: 18px; font-weight: 900; color: var(--brown-dark); margin-bottom: 12px;">Form Rincian Pesanan</h3>
           
           <form id="gallop-booking-form">
             <div style="margin-bottom: 10px;">
-              <label style="font-size: 12px; font-weight: 700; color: var(--brown-dark); display: block; margin-bottom: 4px;">Nama Jamaah</label>
+              <label style="font-size: 12px; font-weight: 700; color: var(--brown-dark); display: block; margin-bottom: 4px;">Nama Pemesan</label>
               <input type="text" id="bk-nama" value="Ahmad Supriyadi" required style="width: 100%; padding: 8px 12px; border-radius: 8px; border: 1px solid var(--brown-border); font-size: 12.5px;">
             </div>
 
@@ -396,8 +498,6 @@
                 <option>Horse Riding Experience Madinah (100 SAR)</option>
                 <option>Private GMC Airport Transfer Jeddah → Makkah (350 SAR)</option>
                 <option>Specialist Umrah Photographer Makkah/Nabawi (200 SAR)</option>
-                <option>Traditional Saudi Coffee & Culinary Tour (75 SAR)</option>
-                <option>Ajwa Premium Dates & Souvenir Hotel Delivery (120 SAR)</option>
               </select>
             </div>
 
@@ -407,7 +507,7 @@
                 <input type="date" id="bk-tanggal" value="2026-12-25" style="width: 100%; padding: 8px 12px; border-radius: 8px; border: 1px solid var(--brown-border); font-size: 12.5px;">
               </div>
               <div>
-                <label style="font-size: 12px; font-weight: 700; color: var(--brown-dark); display: block; margin-bottom: 4px;">Jam & Jumlah Peserta</label>
+                <label style="font-size: 12px; font-weight: 700; color: var(--brown-dark); display: block; margin-bottom: 4px;">Jam & Jumlah Orang</label>
                 <input type="text" id="bk-jam-peserta" value="16.00 WIB / 3 Orang" style="width: 100%; padding: 8px 12px; border-radius: 8px; border: 1px solid var(--brown-border); font-size: 12.5px;">
               </div>
             </div>
@@ -418,16 +518,16 @@
             </div>
 
             <button type="submit" class="btn-brown-solid" style="width: 100%; justify-content: center; background: #25d366; color: white;">
-              Kirim Ringkasan Pesanan ke WA Penyedia ↗
+              Kirim Rincian Pesanan ke WhatsApp Penyedia ↗
             </button>
           </form>
         </div>
 
         <!-- WA LIVE PREVIEW -->
         <div class="clean-box highlight">
-          <h3 style="font-size: 18px; font-weight: 900; color: var(--brown-dark); margin-bottom: 12px;">Live Preview Format Pesan WA</h3>
+          <h3 style="font-size: 18px; font-weight: 900; color: var(--brown-dark); margin-bottom: 12px;">Live Preview Format Pesan WA (`wa.me`)</h3>
           <div class="wa-preview-box" id="wa-live-preview">
-📲 Ringkasan Pesanan GALLOP Umroh:
+📲 Rincian Pesanan GALLOP Umroh:
 
 👤 Nama: Ahmad Supriyadi
 📦 Layanan: Horse Riding Experience Madinah (100 SAR)
@@ -435,99 +535,23 @@
 ⏰ Jam/Peserta: 16.00 WIB / 3 Orang
 📝 Catatan: Minta jemput di Lobi Hotel Oberoi Madinah
 
-Halo Penyedia Jasa, mohon konfirmasi ketersediaan jadwal. Terima kasih!
+Halo Penyedia Jasa, mohon konfirmasi ketersediaan pesanan. Terima kasih!
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- SECTION 13: TAHAP PENGEMBANGAN (ROADMAP FASE 1 - FASE 4) -->
-  <section class="section-clean" id="roadmap">
-    <div class="container">
-      <div class="section-head-clean">
-        <h2 class="head-title">Tahap Pengembangan Platform GALLOP</h2>
-        <p class="head-desc">
-          Dibangun bertahap dari katalog sederhana hingga menjadi ekosistem digital layanan jamaah di Arab Saudi.
-        </p>
-      </div>
-
-      <div class="grid-5-compact" style="margin-bottom: 24px;">
-        <div style="background: white; border-radius: 14px; padding: 14px 10px; border: 1.5px solid var(--brown-border); text-align: center;">
-          <span style="font-size: 10.5px; font-weight: 800; color: var(--brown-muted);">FASE 1</span>
-          <h4 style="font-size: 13.5px; font-weight: 800; margin: 2px 0 1px; color: var(--brown-dark);">Katalog Layanan</h4>
-          <span style="font-size: 11px; color: var(--brown-muted);">Homepage, Search, Filter & Detail.</span>
-        </div>
-
-        <div style="background: var(--brown-soft); border-radius: 14px; padding: 14px 10px; border: 1.5px solid var(--brown-border); text-align: center;">
-          <span style="font-size: 10.5px; font-weight: 800; color: var(--brown-dark);">FASE 2</span>
-          <h4 style="font-size: 13.5px; font-weight: 800; margin: 2px 0 1px; color: var(--brown-dark);">WhatsApp Booking</h4>
-          <span style="font-size: 11px; color: var(--brown-muted);">Profil Penyedia, Rating & WA Form.</span>
-        </div>
-
-        <div style="background: white; border-radius: 14px; padding: 14px 10px; border: 1.5px solid var(--brown-border); text-align: center;">
-          <span style="font-size: 10.5px; font-weight: 800; color: var(--brown-muted);">FASE 3</span>
-          <h4 style="font-size: 13.5px; font-weight: 800; margin: 2px 0 1px; color: var(--brown-dark);">Dashboard Vendor</h4>
-          <span style="font-size: 11px; color: var(--brown-muted);">Panel Penyedia kelola harga & foto.</span>
-        </div>
-
-        <div style="background: white; border-radius: 14px; padding: 14px 10px; border: 1.5px solid var(--brown-border); text-align: center;">
-          <span style="font-size: 10.5px; font-weight: 800; color: var(--brown-muted);">FASE 4</span>
-          <h4 style="font-size: 13.5px; font-weight: 800; margin: 2px 0 1px; color: var(--brown-dark);">Ekosistem Platform</h4>
-          <span style="font-size: 11px; color: var(--brown-muted);">Maps, Verified Badge, Multi-Bahasa.</span>
-        </div>
-
-        <div style="background: white; border-radius: 14px; padding: 14px 10px; border: 1.5px solid var(--brown-border); text-align: center;">
-          <span style="font-size: 10.5px; font-weight: 800; color: var(--brown-muted);">GO LIVE</span>
-          <h4 style="font-size: 13.5px; font-weight: 800; margin: 2px 0 1px; color: var(--brown-dark);">Peluncuran</h4>
-          <span style="font-size: 11px; color: var(--brown-muted);">Operasional Makkah & Madinah.</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SECTION 14 & 15: MANFAAT UNTUK JAMAAH & PENYEDIA -->
-  <section class="section-clean bg-subtle" id="manfaat">
-    <div class="container">
-      <div class="section-head-clean">
-        <h2 class="head-title">Manfaat Utama Bagi Jamaah & Penyedia Jasa</h2>
-      </div>
-
-      <div class="grid-2-compact" style="gap: 20px;">
-        <div class="clean-box">
-          <h3 style="font-size: 18px; font-weight: 900; color: var(--brown-dark); margin-bottom: 10px;">✅ Untuk Jamaah Umroh</h3>
-          <ul style="list-style: none; display: flex; flex-direction: column; gap: 8px; font-size: 13px; color: var(--brown-body);">
-            <li>✓ Informasi kebutuhan perjalanan mudah ditemukan.</li>
-            <li>✓ Transparansi harga (SAR) & komparasi antar penyedia.</li>
-            <li>✓ Kepastian dari rating & ulasan jamaah sebelumnya.</li>
-            <li>✓ Tidak perlu mencari nomor kontak dari banyak grup WA.</li>
-            <li>✓ Pemesanan cepat & langsung terhubung ke WhatsApp.</li>
-          </ul>
-        </div>
-
-        <div class="clean-box highlight">
-          <h3 style="font-size: 18px; font-weight: 900; color: var(--brown-dark); margin-bottom: 10px;">✅ Untuk Penyedia Jasa (Vendor)</h3>
-          <ul style="list-style: none; display: flex; flex-direction: column; gap: 8px; font-size: 13px; color: var(--brown-body);">
-            <li>✓ Etalase digital resmi untuk menjangkau ribuan jamaah.</li>
-            <li>✓ Calon pelanggan langsung masuk ke pesan WhatsApp.</li>
-            <li>✓ Kesempatan membangun reputasi via rating bintang.</li>
-            <li>✓ Dapat menawarkan berbagai paket dalam 1 profil vendor.</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SECTION 16 & 17: VALUE UTAMA & CTA DISKUSI -->
+  <!-- SECTION: CTA DISKUSI PRD -->
   <section class="section-clean" id="diskusikan">
     <div class="container">
       <div class="cta-clean-banner">
-        <h2>Satu Tempat untuk Semua Kebutuhan Jamaah Umroh</h2>
+        <h2>Siap Mengeksekusi PRD Platform GALLOP?</h2>
         <p style="font-size: 14px; color: var(--brown-border); max-width: 660px; margin: 0 auto 20px; line-height: 1.5;">
-          Dari pencarian driver bandara, rental mobil, berkuda di Madinah, hingga fotografer di Makkah — GALLOP menyederhanakan segalanya dalam satu tempat.
+          Tim Dar Dev siap merealisasikan PRD Next.js, Drizzle ORM, SQLite, & WhatsApp integration ini menjadi aplikasi nyata.
         </p>
-        <a href="https://wa.me/6281311506025?text=Halo%20Dar%20Dev,%20saya%20ingin%20mendiskusikan%20rancangan%20platform%20GALLOP%20Umroh" target="_blank" class="btn-brown-solid" style="padding: 12px 24px; font-size: 14px; background: #ffffff; color: var(--brown-dark); font-weight: 800; max-width: 100%; text-decoration: none;">
-          Diskusikan Platform GALLOP Bersama Dar Dev ↗
+        <a href="https://wa.me/6281311506025?text=Halo%20Dar%20Dev,%20saya%20setuju%20dengan%20PRD%20GALLOP%20dan%20ingin%20memulai%20diskusi" target="_blank" class="btn-brown-solid" style="padding: 12px 24px; font-size: 14px; background: #ffffff; color: var(--brown-dark); font-weight: 800; max-width: 100%; text-decoration: none;">
+          Diskusikan Eksekusi PRD Bersama Dar Dev ↗
         </a>
       </div>
     </div>
@@ -539,14 +563,13 @@ Halo Penyedia Jasa, mohon konfirmasi ketersediaan jadwal. Terima kasih!
       <div style="display: flex; justify-content: center; gap: 20px; margin-bottom: 10px; font-weight: 700; color: var(--brown-dark); flex-wrap: wrap;">
         <a href="index.html" style="color: var(--brown-dark); text-decoration: none;">← Kembali ke Ecosystem Qohiroh Center</a>
         <span>•</span>
-        <span>GALLOP — Umrah Service Directory Blueprint by Dar Dev</span>
+        <span>GALLOP — Official PRD Blueprint by Dar Dev</span>
       </div>
-      <p>© 2026 Blueprint Rancangan Platform GALLOP — Persembahan Mahakarya dari <strong>Dar Dev</strong> (Hotline WA: 081311506025).</p>
+      <p>© 2026 PRD Resmi Platform GALLOP — Persembahan Mahakarya dari <strong>Dar Dev</strong> (Hotline WA: 081311506025).</p>
     </div>
   </footer>
 
   <script>
-    // GALLOP INTERACTIVE JAVASCRIPT LOGIC
     document.addEventListener('DOMContentLoaded', () => {
       initGallopBookingSimulator();
       initGallopSearchFilter();
@@ -559,13 +582,13 @@ Halo Penyedia Jasa, mohon konfirmasi ketersediaan jadwal. Terima kasih!
       if (!form || !preview) return;
 
       const updatePreview = () => {
-        const nama = document.getElementById('bk-nama').value || 'Nama Jamaah';
+        const nama = document.getElementById('bk-nama').value || 'Nama Pemesan';
         const layanan = document.getElementById('bk-layanan').value || 'Layanan';
         const tanggal = document.getElementById('bk-tanggal').value || '-';
         const jamPeserta = document.getElementById('bk-jam-peserta').value || '-';
         const catatan = document.getElementById('bk-catatan').value || '-';
 
-        preview.textContent = `📲 Ringkasan Pesanan GALLOP Umroh:\n\n👤 Nama: ${nama}\n📦 Layanan: ${layanan}\n📅 Tanggal: ${tanggal}\n⏰ Jam/Peserta: ${jamPeserta}\n📝 Catatan: ${catatan}\n\nHalo Penyedia Jasa, mohon konfirmasi ketersediaan jadwal. Terima kasih!`;
+        preview.textContent = `📲 Rincian Pesanan GALLOP Umroh:\n\n👤 Nama: ${nama}\n📦 Layanan: ${layanan}\n📅 Tanggal: ${tanggal}\n⏰ Jam/Peserta: ${jamPeserta}\n📝 Catatan: ${catatan}\n\nHalo Penyedia Jasa, mohon konfirmasi ketersediaan pesanan. Terima kasih!`;
       };
 
       form.querySelectorAll('input, select, textarea').forEach(el => {
