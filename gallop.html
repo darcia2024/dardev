@@ -5,342 +5,612 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>GALLOP — Proposal Blueprint Platform Layanan Jamaah Umroh (Dar Dev)</title>
   <meta name="description" content="Pusat katalog layanan dan kebutuhan jamaah selama berada di Arab Saudi (Makkah & Madinah). Persembahan blueprint dari Dar Dev.">
-  
+
   <link rel="stylesheet" href="style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
-    /* THIN & LIGHT EDITORIAL TYPOGRAPHY OVERRIDES FOR /GALLOP */
-    :root {
-      --emerald-dark: #064e3b;      /* Hijau Zamrud Utama */
-      --emerald-body: #022c22;      /* Hijau Zamrud Teks */
-      --emerald-muted: #047857;     /* Hijau Zamrud Medium */
-      --emerald-border: #a7f3d0;    /* Border Zamrud Soft */
-      --emerald-soft: #ecfdf5;      /* Fill Background Soft Zamrud */
-      --emerald-cream: #f0fdf4;     /* Cream Hijau Zamrud */
-      --font-main: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-    }
+    /* ==========================================================================
+       GALLOP — MODERN BENTO / DARK-BAND DESIGN SYSTEM (scoped to .gallop-page)
+       Sans-only type (Space Grotesk display + Plus Jakarta Sans body)
+       Structure: flush sticky head + scroll progress, bento hero + marquee,
+       full-bleed dark carousel band, horizontal snap catalog, numeral watermarks
+       ========================================================================== */
+    .gallop-page {
+      --ink: #12271f;
+      --emerald-900: #052e24;
+      --emerald-800: #064e3b;
+      --emerald-700: #0a6b4f;
+      --emerald-600: #0f9169;
+      --emerald-100: #e9f4ee;
+      --emerald-50: #f6faf8;
+      --sage-border: #d9e7de;
+      --gold: #ab8a4e;
+      --gold-soft: #f6efe1;
+      --cream: #fbf9f4;
+      --paper: #fffdf8;
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+      --ease-spring: cubic-bezier(0.32, 0.72, 0, 1);
 
-    body {
-      font-family: 'Plus Jakarta Sans', -apple-system, sans-serif !important;
-      font-weight: 300 !important;
-      --brown-dark: #064e3b !important;
-      --brown-body: #022c22 !important;
-      --brown-muted: #047857 !important;
-      --brown-border: #a7f3d0 !important;
-      --brown-soft: #ecfdf5 !important;
-      --bg-cream: #f0fdf4 !important;
-      --brown-hover: #022c22 !important;
-      color: var(--brown-body);
-      background-color: #ffffff;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-weight: 400;
+      color: var(--ink);
+      background: var(--cream);
       letter-spacing: -0.1px;
+      position: relative;
+
+      --brown-dark: var(--emerald-800);
+      --brown-body: var(--ink);
+      --brown-muted: var(--emerald-700);
+      --brown-border: var(--sage-border);
+      --brown-soft: var(--emerald-100);
+      --bg-cream: var(--emerald-50);
+      --brown-hover: var(--emerald-900);
     }
 
-    h1, h2, h3, h4, h5, h6, .hero-clean-title, .head-title {
-      font-weight: 300 !important;
-      letter-spacing: -0.6px !important;
+    .gallop-page h1, .gallop-page h2, .gallop-page h3,
+    .gallop-page .hero-clean-title, .gallop-page .head-title {
+      font-family: 'Space Grotesk', 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      text-wrap: balance;
+    }
+    .gallop-page p { text-wrap: pretty; }
+    .gallop-page .container { position: relative; }
+
+    /* Fixed film-grain overlay */
+    .gallop-page .grain-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 3;
+      pointer-events: none;
+      opacity: 0.045;
+      mix-blend-mode: multiply;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
     }
 
-    p, span, div, li, a, label, input, select, textarea {
-      font-weight: 300 !important;
+    /* Scroll reveal */
+    .gallop-page [data-reveal] {
+      opacity: 0;
+      transform: translateY(26px);
+      filter: blur(6px);
+      transition: opacity 0.9s var(--ease), transform 0.9s var(--ease), filter 0.9s var(--ease);
+      will-change: transform, opacity;
+    }
+    .gallop-page [data-reveal].is-visible { opacity: 1; transform: none; filter: blur(0); }
+    .gallop-page [data-reveal-group] > *:nth-child(1) { transition-delay: 0s; }
+    .gallop-page [data-reveal-group] > *:nth-child(2) { transition-delay: 0.08s; }
+    .gallop-page [data-reveal-group] > *:nth-child(3) { transition-delay: 0.16s; }
+    .gallop-page [data-reveal-group] > *:nth-child(4) { transition-delay: 0.24s; }
+    @media (prefers-reduced-motion: reduce) {
+      .gallop-page [data-reveal] { opacity: 1 !important; transform: none !important; filter: none !important; transition: none !important; }
     }
 
-    strong, b, .font-bold {
-      font-weight: 500 !important;
-    }
-
-    .notice-banner {
-      background: #064e3b !important;
-      color: #ffffff !important;
-      border-bottom: 1px solid #047857 !important;
-      font-weight: 300 !important;
+    /* ---------- Sticky head: banner + nav pinned as one unit + scroll progress ---------- */
+    .gallop-page .sticky-head { position: sticky; top: 0; z-index: 1000; }
+    .gallop-page .notice-banner, .gallop-page .navbar-clean { position: static; }
+    .gallop-page .notice-banner {
+      background: var(--emerald-900);
+      border-bottom: none;
+      font-weight: 500;
       font-size: 12.5px;
     }
-
-    .brand-clean {
-      color: #064e3b !important;
-      font-weight: 400 !important;
-      letter-spacing: -0.5px !important;
+    .gallop-page .scroll-progress { height: 3px; background: rgba(6,78,59,0.08); }
+    .gallop-page .scroll-progress-fill {
+      height: 100%; width: 100%;
+      background: linear-gradient(90deg, var(--gold), var(--emerald-600));
+      transform: scaleX(0);
+      transform-origin: left;
     }
 
-    .brand-clean span {
-      color: #047857 !important;
-      font-weight: 300 !important;
+    .gallop-page .navbar-clean {
+      background: rgba(251, 249, 244, 0.86);
+      backdrop-filter: blur(14px) saturate(140%);
+      -webkit-backdrop-filter: blur(14px) saturate(140%);
+      border-bottom: 1px solid var(--sage-border);
+      padding: 15px 0;
     }
+    .gallop-page .nav-inner { background: none; border: none; box-shadow: none; padding: 0; border-radius: 0; }
 
-    .nav-links-clean a {
-      font-weight: 300 !important;
-      font-size: 13px;
+    .gallop-page .brand-clean { color: var(--emerald-800); font-weight: 700; letter-spacing: -0.02em; font-family: 'Space Grotesk', sans-serif; }
+    .gallop-page .brand-mark { width: 24px; height: 24px; stroke: var(--gold); flex-shrink: 0; }
+    .gallop-page .brand-clean span { color: var(--emerald-600); font-weight: 500; font-family: inherit; }
+
+    .gallop-page .nav-links-clean { overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none; }
+    .gallop-page .nav-links-clean::-webkit-scrollbar { display: none; }
+    .gallop-page .nav-links-clean a { font-weight: 600; font-size: 13px; color: var(--ink); transition: color 0.3s var(--ease); position: relative; }
+    .gallop-page .nav-links-clean a:hover, .gallop-page .nav-links-clean a.active { color: var(--emerald-800); border-bottom-color: var(--emerald-800); }
+    .gallop-page .nav-btn-wrapper .btn-brown-outline { padding: 8px 9px 8px 18px; font-size: 12.5px; }
+
+    /* ---------- Buttons ---------- */
+    .gallop-page .btn-brown-outline, .gallop-page .btn-brown-solid {
+      font-weight: 700;
+      transition: transform 0.5s var(--ease-spring), background 0.4s var(--ease), box-shadow 0.4s var(--ease), color 0.4s var(--ease);
     }
-
-    .gallop-badge {
-      background: #064e3b !important;
-      color: #ffffff !important;
-      padding: 5px 16px;
-      border-radius: 50px;
-      font-size: 11px;
-      font-weight: 400 !important;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-      display: inline-block;
-      margin-bottom: 14px;
+    .gallop-page .btn-brown-outline { border-color: var(--emerald-800); color: var(--emerald-800); }
+    .gallop-page .btn-brown-outline:hover { background: var(--emerald-800); color: #fff; transform: translateY(-2px); }
+    .gallop-page .btn-brown-solid { background: var(--emerald-800); box-shadow: 0 14px 30px -12px rgba(6,78,59,0.55); }
+    .gallop-page .btn-brown-solid:hover { background: var(--emerald-900); transform: translateY(-2px); box-shadow: 0 18px 36px -12px rgba(6,78,59,0.6); }
+    .gallop-page .btn-brown-solid:active, .gallop-page .btn-brown-outline:active { transform: scale(0.97); }
+    .gallop-page a:focus-visible, .gallop-page button:focus-visible, .gallop-page input:focus-visible,
+    .gallop-page select:focus-visible, .gallop-page textarea:focus-visible { outline: 2px solid var(--emerald-600); outline-offset: 2px; }
+    .gallop-page .btn-arrow-circle {
+      width: 30px; height: 30px; border-radius: 50%;
+      background: rgba(255,255,255,0.2);
+      display: inline-flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      transition: transform 0.5s var(--ease-spring);
     }
+    .gallop-page .btn-arrow-circle svg { width: 13px; height: 13px; stroke: #fff; }
+    .gallop-page .btn-brown-outline .btn-arrow-circle { background: rgba(6,78,59,0.08); }
+    .gallop-page .btn-brown-outline .btn-arrow-circle svg { stroke: var(--emerald-800); }
+    .gallop-page .btn-brown-outline:hover .btn-arrow-circle svg { stroke: #fff; }
+    .gallop-page .btn-brown-solid:hover .btn-arrow-circle, .gallop-page .btn-brown-outline:hover .btn-arrow-circle { transform: translate(2px, -2px) scale(1.06); }
 
-    .hero-clean-title {
-      font-size: 42px !important;
-      line-height: 1.15;
-      margin-bottom: 16px;
+    .gallop-page .gallop-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--emerald-900); color: #fff;
+      padding: 7px 18px 7px 13px; border-radius: 50px;
+      font-size: 10.5px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+      margin-bottom: 24px;
     }
+    .gallop-page .gallop-badge svg { width: 13px; height: 13px; stroke: var(--gold); }
 
-    .hero-clean-desc {
-      font-size: 16px !important;
-      font-weight: 300 !important;
-      line-height: 1.6;
+    /* ---------- Section numeral watermark ---------- */
+    .gallop-page .section-head-clean { position: relative; }
+    .gallop-page .section-numeral {
+      position: absolute;
+      top: -34px; left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: clamp(90px, 11vw, 150px);
+      color: var(--emerald-800);
+      opacity: 0.055;
+      line-height: 1;
+      pointer-events: none;
+      user-select: none;
+      z-index: 0;
+      white-space: nowrap;
     }
+    .gallop-page .section-head-clean > * { position: relative; z-index: 1; }
 
-    .btn-brown-solid {
-      background: #064e3b !important;
-      color: #ffffff !important;
-      font-weight: 400 !important;
-      letter-spacing: 0.2px;
+    /* ---------- Marquee ---------- */
+    .gallop-page .marquee {
+      overflow: hidden;
+      -webkit-mask-image: linear-gradient(90deg, transparent, black 6%, black 94%, transparent);
+      mask-image: linear-gradient(90deg, transparent, black 6%, black 94%, transparent);
     }
-
-    .btn-brown-solid:hover {
-      background: #022c22 !important;
-    }
-
-    .btn-brown-outline {
-      border-color: #064e3b !important;
-      color: #064e3b !important;
-      font-weight: 400 !important;
-    }
-
-    .btn-brown-outline:hover {
-      background: #064e3b !important;
-      color: #ffffff !important;
-    }
-
-    .summary-card-clean {
-      border-color: #a7f3d0 !important;
-      font-weight: 300 !important;
-    }
-
-    .summary-card-label {
-      font-weight: 400 !important;
-      letter-spacing: 0.8px;
-    }
-
-    .clean-box {
-      border-color: #a7f3d0 !important;
-      background: #ffffff;
-      font-weight: 300 !important;
-    }
-
-    .clean-box.highlight {
-      background: #ecfdf5 !important;
-      border-color: #064e3b !important;
-    }
-
-    .catalog-card-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-    }
-
-    .catalog-item-card {
-      background: #ffffff;
-      border: 1.5px solid #a7f3d0;
-      border-radius: 16px;
-      padding: 18px;
-      box-shadow: 0 4px 14px rgba(6, 78, 59, 0.04);
-      transition: all 0.2s ease;
+    .gallop-page .marquee-track {
       display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+      gap: 12px;
+      width: max-content;
+      animation: gallop-marquee 26s linear infinite;
     }
-
-    .catalog-item-card h4 {
-      font-weight: 400 !important;
-      font-size: 16px;
+    .gallop-page .marquee:hover .marquee-track { animation-play-state: paused; }
+    @keyframes gallop-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    .gallop-page .marquee-chip {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: var(--paper);
+      border: 1px solid var(--sage-border);
+      color: var(--emerald-800);
+      font-size: 12.5px; font-weight: 600;
+      padding: 9px 18px; border-radius: 50px;
+      white-space: nowrap;
     }
+    .gallop-page .marquee-chip svg { width: 13px; height: 13px; stroke: var(--gold); flex-shrink: 0; }
+    @media (prefers-reduced-motion: reduce) { .gallop-page .marquee-track { animation: none; } }
 
-    .catalog-item-card:hover {
-      border-color: #064e3b;
-      box-shadow: 0 10px 24px rgba(6, 78, 59, 0.08);
-      transform: translateY(-2px);
-    }
-
-    .catalog-tag {
-      background: #ecfdf5;
-      border: 1px solid #a7f3d0;
-      color: #064e3b;
-      font-size: 11px;
-      font-weight: 400 !important;
-      padding: 3px 10px;
-      border-radius: 6px;
-      display: inline-block;
-    }
-
-    .price-sar {
-      font-size: 18px;
-      font-weight: 400 !important;
-      color: #064e3b;
-    }
-
-    .wa-preview-box {
-      background: #ecfdf5;
-      border: 1.5px solid #10b981;
-      border-radius: 16px;
-      padding: 20px;
-      font-family: inherit;
-      font-size: 13px;
-      font-weight: 300 !important;
-      color: #064e3b;
-      line-height: 1.6;
-      white-space: pre-wrap;
-    }
-
-    .table-spec-box {
-      background: #ffffff;
-      border-radius: 16px;
-      border: 1.5px solid #a7f3d0;
-      padding: 20px;
-      box-shadow: 0 4px 14px rgba(6, 78, 59, 0.03);
-      font-weight: 300 !important;
-    }
-
-    /* VISUAL FLOW INFOGRAPHIC CARDS */
-    .flow-step-card {
-      background: #ffffff;
-      border: 1.5px solid #a7f3d0;
-      border-radius: 18px;
-      padding: 22px;
+    /* ---------- Hero ---------- */
+    .gallop-page .hero-clean {
       position: relative;
-      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      overflow: hidden;
+      text-align: left;
+      padding: 68px 0 0;
+      border-bottom: none;
+      background:
+        radial-gradient(900px 460px at 90% -16%, rgba(171,138,78,0.14), transparent 60%),
+        radial-gradient(760px 520px at -14% 100%, rgba(6,78,59,0.10), transparent 55%),
+        linear-gradient(180deg, var(--emerald-50) 0%, var(--cream) 100%);
     }
-
-    .flow-step-card:hover {
-      border-color: #064e3b;
-      box-shadow: 0 12px 28px rgba(6, 78, 59, 0.08);
-      transform: translateY(-3px);
+    .gallop-page .hero-copy { max-width: 900px; margin-bottom: 34px; }
+    .gallop-page .hero-copy .hero-clean-title {
+      font-size: clamp(38px, 6.4vw, 76px);
+      line-height: 1.02;
+      margin: 0 0 22px;
+      color: var(--emerald-900);
     }
+    .gallop-page .hero-clean-title em { font-style: normal; color: var(--emerald-600); }
+    .gallop-page .hero-copy .hero-clean-desc {
+      font-size: 17px; font-weight: 400; color: #33544a; line-height: 1.65;
+      max-width: 620px; margin: 0 0 32px;
+    }
+    .gallop-page .hero-actions-row { justify-content: flex-start; margin-bottom: 40px; }
 
-    .flow-step-num {
-      width: 38px;
-      height: 38px;
-      background: #ecfdf5;
-      border: 1.5px solid #064e3b;
-      color: #064e3b;
-      border-radius: 50px;
+    .gallop-page .hero-marquee-wrap { margin-bottom: 44px; }
+
+    /* Hero bento grid */
+    .gallop-page .hero-bento {
+      display: grid;
+      grid-template-columns: 1.25fr 1fr;
+      grid-template-rows: auto auto;
+      gap: 16px;
+      padding-bottom: 56px;
+    }
+    .gallop-page .bento-card {
+      border-radius: 26px;
+      padding: 28px;
+      transition: transform 0.5s var(--ease);
+    }
+    .gallop-page .bento-card:hover { transform: translateY(-4px); }
+    .gallop-page .bento-card.big {
+      grid-row: span 2;
+      background: var(--emerald-900);
+      color: #fff;
+      display: flex; flex-direction: column; justify-content: space-between;
+      box-shadow: 0 34px 60px -30px rgba(5,46,36,0.55);
+      position: relative;
+      overflow: hidden;
+      min-height: 320px;
+    }
+    .gallop-page .bento-card.big::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(320px 200px at 100% 0%, rgba(171,138,78,0.22), transparent 60%);
+      pointer-events: none;
+    }
+    .gallop-page .bento-flow { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+    .gallop-page .bento-flow span {
+      background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.18);
+      padding: 8px 14px; border-radius: 50px; font-size: 13px; font-weight: 600; color: #fff;
+    }
+    .gallop-page .bento-flow svg { width: 16px; height: 16px; stroke: var(--gold); flex-shrink: 0; }
+    .gallop-page .bento-card.big .bento-eyebrow { color: var(--gold); font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
+    .gallop-page .bento-card.big h3 { font-size: 26px; color: #fff; margin: 10px 0 0; }
+    .gallop-page .bento-card.small {
+      background: var(--paper);
+      border: 1px solid var(--sage-border);
+      box-shadow: 0 20px 40px -30px rgba(6,78,59,0.3);
+      display: flex; gap: 14px; align-items: flex-start;
+    }
+    .gallop-page .bento-icon-wrap {
+      width: 40px; height: 40px; border-radius: 12px; flex-shrink: 0;
+      background: var(--emerald-100);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .gallop-page .bento-icon-wrap svg { width: 19px; height: 19px; stroke: var(--emerald-800); }
+    .gallop-page .bento-card.small h4 { font-size: 15px; font-weight: 700; color: var(--emerald-900); margin-bottom: 4px; }
+    .gallop-page .bento-card.small p { font-size: 12.5px; color: #4a6b60; line-height: 1.5; }
+
+    /* ---------- Sections common ---------- */
+    .gallop-page .section-clean { border-bottom-color: var(--sage-border); padding: 100px 0; overflow: hidden; }
+    .gallop-page .section-clean.bg-subtle { background: var(--emerald-50); }
+    .gallop-page .section-head-clean { max-width: 640px; margin: 0 auto 54px; }
+    .gallop-page .head-title { font-size: clamp(27px, 3.2vw, 37px); color: var(--emerald-900); }
+    .gallop-page .head-desc { color: #4a6b60; font-size: 15.5px; }
+    .gallop-page .eyebrow { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
+
+    .gallop-page .clean-box { border-color: var(--sage-border); box-shadow: 0 30px 60px -40px rgba(6,78,59,0.35); border-radius: 26px; transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease); }
+    .gallop-page .clean-box:hover { border-color: var(--emerald-700); transform: translateY(-4px); }
+    .gallop-page .clean-box.highlight { background: var(--emerald-100); border-color: var(--emerald-700); }
+    .gallop-page .quote-strip { background: #ffffff; border-left: 3px solid var(--gold); padding: 13px 18px; border-radius: 4px; font-size: 13px; font-weight: 500; color: var(--emerald-900); font-family: 'Plus Jakarta Sans', sans-serif; }
+    .gallop-page .flow-banner-pill { border-color: var(--emerald-800); }
+    .gallop-page .flow-banner-pill span { color: var(--emerald-800); font-weight: 700; }
+
+    /* ---------- DARK BAND: Alur Pemesanan as horizontal snap carousel ---------- */
+    .gallop-page .section-dark {
+      background: var(--emerald-900);
+      background-image: radial-gradient(700px 360px at 12% 0%, rgba(171,138,78,0.16), transparent 60%), radial-gradient(600px 420px at 100% 100%, rgba(15,145,105,0.28), transparent 60%);
+      border-bottom-color: rgba(255,255,255,0.08);
+      color: #fff;
+    }
+    .gallop-page .section-dark .eyebrow { color: var(--gold); }
+    .gallop-page .section-dark .head-title { color: #fff; }
+    .gallop-page .section-dark .head-desc { color: #bcd8cb; }
+    .gallop-page .section-dark .section-numeral { color: #fff; opacity: 0.05; }
+
+    .gallop-page .snap-row {
       display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 14px;
-      font-weight: 500 !important;
-      margin-bottom: 14px;
+      gap: 18px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      padding: 6px 6px 18px;
+      margin: 0 -6px;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
     }
+    .gallop-page .snap-row::-webkit-scrollbar { display: none; }
 
-    .flow-arrow-icon {
-      font-size: 20px;
-      color: #047857;
-      text-align: center;
+    .gallop-page .track-step {
+      scroll-snap-align: start;
+      flex: 0 0 auto;
+      width: 270px;
+      text-align: left;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 22px;
+      padding: 26px;
+      backdrop-filter: blur(6px);
+      transition: transform 0.5s var(--ease), background 0.4s var(--ease);
+    }
+    .gallop-page .track-step:hover { transform: translateY(-5px); background: rgba(255,255,255,0.09); }
+    .gallop-page .track-step-num {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 42px;
+      color: transparent;
+      -webkit-text-stroke: 1.5px rgba(255,255,255,0.35);
+      line-height: 1;
+      margin-bottom: 18px;
+      display: block;
+    }
+    .gallop-page .track-step h4 { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 16px; color: #fff; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+    .gallop-page .track-step h4 svg { width: 18px; height: 18px; stroke: var(--gold); flex-shrink: 0; }
+    .gallop-page .track-step p { font-size: 13px; color: #bcd8cb; line-height: 1.6; }
+    .gallop-page .track-step.finish { background: var(--gold-soft); border-color: var(--gold); }
+    .gallop-page .track-step.finish .track-step-num { -webkit-text-stroke: 0; color: var(--gold); }
+    .gallop-page .track-step.finish h4 { color: var(--emerald-900); }
+    .gallop-page .track-step.finish h4 svg { stroke: var(--emerald-800); }
+    .gallop-page .track-step.finish p { color: #5a4b30; }
+
+    .gallop-page .snap-hint { display: flex; align-items: center; gap: 8px; justify-content: center; margin-top: 8px; font-size: 11.5px; color: #9fc3b2; }
+    .gallop-page .snap-hint svg { width: 14px; height: 14px; stroke: #9fc3b2; }
+
+    /* ---------- Ecosystem diagram ---------- */
+    .gallop-page .diagram-panel { background: var(--paper); border: 1px solid var(--sage-border); border-radius: 32px; padding: 44px 30px; box-shadow: 0 40px 70px -40px rgba(6,78,59,0.3); }
+    .gallop-page .diagram-flow { display: grid; grid-template-columns: 1fr 64px 1fr 64px 1fr; align-items: center; }
+    .gallop-page .diagram-node { border: 1px solid var(--sage-border); background: var(--emerald-50); border-radius: 22px; padding: 28px 20px; text-align: center; transition: transform 0.5s var(--ease); }
+    .gallop-page .diagram-node:hover { transform: translateY(-5px); }
+    .gallop-page .diagram-node.core { background: var(--emerald-800); border-color: var(--emerald-800); color: #fff; transform: scale(1.06); box-shadow: 0 26px 50px -18px rgba(6,78,59,0.5); }
+    .gallop-page .diagram-node.core:hover { transform: scale(1.06) translateY(-5px); }
+    .gallop-page .diagram-node-icon { width: 42px; height: 42px; margin: 0 auto 14px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: #fff; border: 1px solid var(--sage-border); }
+    .gallop-page .diagram-node.core .diagram-node-icon { background: rgba(255,255,255,0.14); border-color: rgba(255,255,255,0.3); }
+    .gallop-page .diagram-node-icon svg { width: 20px; height: 20px; stroke: var(--emerald-800); }
+    .gallop-page .diagram-node.core .diagram-node-icon svg { stroke: #fff; }
+    .gallop-page .diagram-node h4 { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 15.5px; color: var(--emerald-900); margin-bottom: 3px; }
+    .gallop-page .diagram-node.core h4 { color: #fff; }
+    .gallop-page .diagram-node-sub { font-size: 11.5px; color: var(--emerald-700); display: block; margin-bottom: 14px; }
+    .gallop-page .diagram-node.core .diagram-node-sub { color: #bfe0d1; }
+    .gallop-page .diagram-node-facts { font-size: 11px; background: #fff; padding: 10px 11px; border-radius: 10px; border: 1px solid var(--sage-border); color: var(--ink); line-height: 1.7; text-align: left; }
+    .gallop-page .diagram-node.core .diagram-node-facts { background: rgba(255,255,255,0.14); border-color: rgba(255,255,255,0.28); color: #fff; }
+    .gallop-page .diagram-arrow { display: flex; align-items: center; justify-content: center; }
+    .gallop-page .diagram-arrow svg { width: 44px; height: 20px; stroke: var(--gold); }
+    .gallop-page .diagram-summary { margin-top: 30px; background: var(--emerald-50); border: 1px solid var(--sage-border); border-radius: 50px; padding: 14px 24px; text-align: center; font-size: 12.5px; color: var(--emerald-900); font-weight: 600; }
+    .gallop-page .diagram-summary strong { color: var(--gold); }
+
+    /* ---------- Pillars ---------- */
+    .gallop-page .pillar-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border: 1px solid var(--sage-border); border-radius: 26px; overflow: hidden; background: var(--paper); box-shadow: 0 30px 60px -40px rgba(6,78,59,0.3); }
+    .gallop-page .pillar-item { padding: 30px 26px; border-left: 1px solid var(--sage-border); transition: background 0.4s var(--ease); }
+    .gallop-page .pillar-item:first-child { border-left: none; }
+    .gallop-page .pillar-item:nth-child(2) { background: var(--emerald-50); }
+    .gallop-page .pillar-item:hover { background: var(--gold-soft); }
+    .gallop-page .pillar-head { display: flex; align-items: center; gap: 11px; margin-bottom: 16px; padding-bottom: 14px; border-bottom: 1px solid var(--sage-border); }
+    .gallop-page .pillar-head svg { width: 20px; height: 20px; stroke: var(--emerald-800); flex-shrink: 0; }
+    .gallop-page .pillar-head strong { font-size: 14.5px; font-weight: 700; color: var(--emerald-900); }
+    .gallop-page .pillar-item ul { list-style: none; display: flex; flex-direction: column; gap: 9px; font-size: 12.8px; color: #33544a; }
+    .gallop-page .pillar-item li { display: flex; align-items: baseline; gap: 8px; }
+    .gallop-page .pillar-item li::before { content: '—'; color: var(--gold); flex-shrink: 0; }
+
+    /* ---------- Catalog: horizontal snap carousel ---------- */
+    .gallop-page .catalog-toolbar { background: var(--paper); border: 1px solid var(--sage-border); box-shadow: 0 20px 44px -30px rgba(6,78,59,0.3); }
+    .gallop-page .erd-search-clean { border-color: var(--sage-border); background: #fff; }
+    .gallop-page .erd-search-clean:focus { border-color: var(--emerald-800); box-shadow: 0 0 0 3px var(--emerald-100); }
+    .gallop-page .catalog-card-grid {
       display: flex;
-      align-items: center;
-      justify-content: center;
+      gap: 20px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      padding: 6px 6px 20px;
+      margin: 0 -6px;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
     }
+    .gallop-page .catalog-card-grid::-webkit-scrollbar { display: none; }
+    .gallop-page .catalog-item-card {
+      scroll-snap-align: start;
+      flex: 0 0 auto;
+      width: 300px;
+      background: var(--paper);
+      border: 1px solid var(--sage-border);
+      border-radius: 22px;
+      padding: 0;
+      overflow: hidden;
+      box-shadow: 0 20px 44px -30px rgba(6,78,59,0.3);
+      transition: all 0.5s var(--ease);
+      display: flex; flex-direction: column; justify-content: space-between;
+    }
+    .gallop-page .catalog-item-card:hover { border-color: var(--emerald-700); box-shadow: 0 32px 60px -26px rgba(6,78,59,0.28); transform: translateY(-5px); }
+    .gallop-page .catalog-item-card.featured { border-color: var(--gold); box-shadow: 0 32px 60px -26px rgba(171,138,78,0.32); }
+    .gallop-page .catalog-top-bar { height: 5px; background: var(--emerald-800); }
+    .gallop-page .catalog-item-card.featured .catalog-top-bar { background: var(--gold); }
+    .gallop-page .catalog-body { padding: 20px; flex: 1; }
+    .gallop-page .catalog-item-card.featured .catalog-body { padding-top: 42px; }
+    .gallop-page .catalog-foot { padding: 0 20px 20px; }
+    .gallop-page .featured-flag { position: absolute; top: 14px; right: 14px; background: var(--gold); color: #fff; font-size: 10px; font-weight: 700; padding: 4px 10px; border-radius: 50px; letter-spacing: 0.04em; text-transform: uppercase; }
+    .gallop-page .catalog-tag { background: var(--emerald-50); border-color: var(--sage-border); color: var(--emerald-800); font-weight: 600; }
+    .gallop-page .price-sar { color: var(--emerald-800); font-weight: 700; font-family: 'Space Grotesk', sans-serif; font-size: 19px; }
+    .gallop-page .rating-chip { font-size: 12px; font-weight: 700; color: var(--gold); display: inline-flex; align-items: center; gap: 3px; }
+    .gallop-page .rating-chip svg { width: 13px; height: 13px; stroke: var(--gold); fill: var(--gold); }
 
-    .cta-clean-banner {
-      background: #064e3b !important;
-      border-color: #047857 !important;
-      color: #ffffff !important;
+    /* ---------- WhatsApp phone mockup ---------- */
+    .gallop-page .phone-mock { background: var(--emerald-900); border-radius: 30px; padding: 10px; max-width: 340px; margin: 0 auto; box-shadow: 0 40px 70px -30px rgba(5,46,36,0.5); }
+    .gallop-page .phone-screen { background: #e7f2ec; border-radius: 20px; overflow: hidden; }
+    .gallop-page .phone-topbar { background: var(--emerald-800); color: #fff; padding: 12px 14px; display: flex; align-items: center; gap: 10px; font-size: 12.5px; font-weight: 700; }
+    .gallop-page .phone-topbar .avatar { width: 28px; height: 28px; border-radius: 50%; background: rgba(255,255,255,0.18); display: flex; align-items: center; justify-content: center; }
+    .gallop-page .phone-topbar .avatar svg { width: 15px; height: 15px; stroke: #fff; }
+    .gallop-page .phone-body { padding: 16px 12px; min-height: 220px; }
+    .gallop-page .wa-preview-box { background: #fff; border: none; border-radius: 4px 16px 16px 16px; padding: 12px 14px; font-family: inherit; font-size: 12.5px; font-weight: 400; color: var(--ink); line-height: 1.65; white-space: pre-wrap; box-shadow: 0 1px 2px rgba(0,0,0,0.08); }
+
+    .gallop-page .table-spec-box { border-color: var(--sage-border); box-shadow: 0 30px 60px -40px rgba(6,78,59,0.3); border-radius: 22px; }
+
+    /* ---------- Roadmap rail ---------- */
+    .gallop-page .rail { position: relative; padding-left: 34px; }
+    .gallop-page .rail::before { content: ''; position: absolute; left: 9px; top: 6px; bottom: 6px; width: 2px; background: var(--sage-border); }
+    .gallop-page .rail-item { position: relative; padding-bottom: 34px; }
+    .gallop-page .rail-item:last-child { padding-bottom: 0; }
+    .gallop-page .rail-dot { position: absolute; left: -34px; top: 2px; width: 20px; height: 20px; border-radius: 50%; background: var(--paper); border: 2px solid var(--sage-border); }
+    .gallop-page .rail-item.active .rail-dot { border-color: var(--emerald-800); background: var(--emerald-800); box-shadow: 0 0 0 5px var(--emerald-100); }
+    .gallop-page .rail-phase { font-size: 10.5px; font-weight: 700; letter-spacing: 0.08em; color: var(--gold); text-transform: uppercase; }
+    .gallop-page .rail-item h4 { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 16.5px; font-weight: 700; color: var(--emerald-900); margin: 4px 0 5px; }
+    .gallop-page .rail-item p { font-size: 13px; color: #4a6b60; line-height: 1.5; max-width: 520px; }
+
+    /* ---------- CTA ---------- */
+    .gallop-page .cta-clean-banner {
+      background: var(--emerald-900) !important;
+      background-image: radial-gradient(600px 260px at 15% 0%, rgba(171,138,78,0.2), transparent 60%), radial-gradient(500px 300px at 100% 100%, rgba(15,145,105,0.25), transparent 60%) !important;
+      position: relative;
+      overflow: hidden;
+      border-radius: 34px !important;
+      box-shadow: 0 50px 90px -40px rgba(5,46,36,0.55) !important;
+    }
+    .gallop-page .cta-clean-banner h2 { font-weight: 700 !important; font-size: clamp(26px, 3.4vw, 38px) !important; }
+
+    /* ---------- Footer ---------- */
+    .gallop-page footer { border-top-color: var(--sage-border) !important; color: var(--emerald-700) !important; background: var(--cream) !important; }
+    .gallop-page footer a { color: var(--emerald-900) !important; }
+
+    @media (max-width: 900px) {
+      .gallop-page .hero-bento { grid-template-columns: 1fr; grid-template-rows: auto; }
+      .gallop-page .bento-card.big { grid-row: auto; min-height: 0; }
     }
 
     @media (max-width: 768px) {
-      .catalog-card-grid {
-        grid-template-columns: 1fr !important;
-      }
-      .hero-clean-title {
-        font-size: 30px !important;
-      }
-      .flow-arrow-icon {
-        transform: rotate(90deg);
-        margin: 8px 0;
-      }
+      .gallop-page .section-clean { padding: 56px 0; }
+      .gallop-page .hero-clean { padding: 30px 0 0; text-align: left; }
+      .gallop-page .hero-clean-title { font-size: 32px !important; }
+      .gallop-page .section-numeral { display: none; }
+      .gallop-page .diagram-flow { grid-template-columns: 1fr; }
+      .gallop-page .diagram-arrow svg { transform: rotate(90deg); }
+      .gallop-page .diagram-node.core { transform: none; }
+      .gallop-page .diagram-node.core:hover { transform: translateY(-5px); }
+      .gallop-page .pillar-row { grid-template-columns: 1fr; }
+      .gallop-page .pillar-item { border-left: none; border-top: 1px solid var(--sage-border); }
+      .gallop-page .pillar-item:first-child { border-top: none; }
+      .gallop-page .phone-mock { max-width: 100%; }
+      .gallop-page .track-step { width: 82vw; }
+      .gallop-page .catalog-item-card { width: 82vw; }
     }
   </style>
 </head>
 <body class="gallop-page">
+  <div class="grain-overlay" aria-hidden="true"></div>
 
-  <!-- NOTICE BANNER -->
-  <div class="notice-banner">
-    <svg class="icon-outline" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
-    BLUEPRINT PLATFORM GALLOP: Pusat Katalog Layanan Tambahan Jamaah Umroh di Arab Saudi (Makkah & Madinah) persembahan <strong>Dar Dev</strong>.
-  </div>
+  <div class="sticky-head">
+    <!-- NOTICE BANNER -->
+    <div class="notice-banner">
+      <svg class="icon-outline" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+      BLUEPRINT PLATFORM GALLOP: Pusat Katalog Layanan Tambahan Jamaah Umroh di Arab Saudi (Makkah & Madinah) persembahan <strong>Dar Dev</strong>.
+    </div>
 
-  <!-- NAVBAR MINIMALIST -->
-  <header class="navbar-clean">
-    <div class="container">
-      <div class="nav-inner">
-        <a href="index.html" class="brand-clean">Dar Dev <span>× GALLOP</span></a>
+    <!-- NAVBAR -->
+    <header class="navbar-clean">
+      <div class="container">
+        <div class="nav-inner">
+          <a href="index.html" class="brand-clean">
+            <svg class="brand-mark" viewBox="0 0 24 24" fill="none"><path d="M6 3v6a6 6 0 0 0 12 0V3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="6" cy="3" r="1.1" fill="currentColor"/><circle cx="18" cy="3" r="1.1" fill="currentColor"/></svg>
+            Dar Dev <span>× GALLOP</span>
+          </a>
 
-        <ul class="nav-links-clean">
-          <li><a href="#overview">Gambaran</a></li>
-          <li><a href="#konsep">Konsep Utama</a></li>
-          <li><a href="#user-flow">Alur Sistem</a></li>
-          <li><a href="#diagram-ekosistem">Diagram Ekosistem</a></li>
-          <li><a href="#katalog">Katalog Layanan</a></li>
-          <li><a href="#wa-booking">Pemesanan WA</a></li>
-          <li><a href="#roadmap">Fase Pengerjaan</a></li>
-        </ul>
+          <ul class="nav-links-clean">
+            <li><a href="#overview">Gambaran</a></li>
+            <li><a href="#konsep">Konsep Utama</a></li>
+            <li><a href="#user-flow">Alur Sistem</a></li>
+            <li><a href="#diagram-ekosistem">Diagram Ekosistem</a></li>
+            <li><a href="#katalog">Katalog Layanan</a></li>
+            <li><a href="#wa-booking">Pemesanan WA</a></li>
+            <li><a href="#roadmap">Fase Pengerjaan</a></li>
+          </ul>
 
-        <div class="nav-btn-wrapper">
-          <a href="https://wa.me/6281311506025?text=Halo%20Dar%20Dev,%20saya%20tertarik%20dengan%20rancangan%20platform%20GALLOP%20Umroh" target="_blank" class="btn-brown-outline nav-cta-btn">Diskusi WA ↗</a>
+          <div class="nav-btn-wrapper">
+            <a href="https://wa.me/6281311506025?text=Halo%20Dar%20Dev,%20saya%20tertarik%20dengan%20rancangan%20platform%20GALLOP%20Umroh" target="_blank" class="btn-brown-outline nav-cta-btn">
+              Diskusi WA
+              <span class="btn-arrow-circle"><svg viewBox="0 0 24 24" fill="none"><path d="M7 17 17 7M9 7h8v8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            </a>
+          </div>
         </div>
       </div>
-    </div>
-  </header>
+    </header>
+
+    <div class="scroll-progress"><div class="scroll-progress-fill" id="scrollProgressFill"></div></div>
+  </div>
 
   <!-- HERO SECTION -->
   <section class="hero-clean" id="overview">
     <div class="container">
-      <span class="gallop-badge">Rancangan Website Layanan Tambahan Jamaah Umroh</span>
+      <div class="hero-copy" data-reveal>
+        <span class="gallop-badge">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M6 3v6a6 6 0 0 0 12 0V3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          Rancangan Website Layanan Tambahan Jamaah
+        </span>
 
-      <h1 class="hero-clean-title" style="color: #064e3b;">Pusat Katalog & Kebutuhan Jamaah di Arab Saudi</h1>
-      
-      <p class="hero-clean-desc">
-        Satu platform praktis dari <strong>Dar Dev</strong> untuk menemukan seluruh kebutuhan jamaah selama berada di Makkah & Madinah — Dari Transportasi, Kuliner, Berkuda, Padel, Dokumentasi, hingga Oleh-oleh secara transparan dan mudah dipesan via WhatsApp.
-      </p>
+        <h1 class="hero-clean-title">Pusat katalog & kebutuhan jamaah <em>di Arab Saudi</em></h1>
 
-      <div class="hero-actions-row">
-        <a href="#katalog" class="btn-brown-solid">Lihat Contoh Katalog ↓</a>
-        <a href="https://wa.me/6281311506025?text=Halo%20Dar%20Dev,%20saya%20tertarik%20dengan%20rancangan%20platform%20GALLOP%20Umroh" target="_blank" class="btn-brown-outline">Diskusikan Bersama Dar Dev ↗</a>
+        <p class="hero-clean-desc">
+          Satu platform praktis dari <strong>Dar Dev</strong> untuk menemukan seluruh kebutuhan jamaah selama berada di Makkah & Madinah — dari transportasi, kuliner, berkuda, padel, dokumentasi, hingga oleh-oleh secara transparan dan mudah dipesan via WhatsApp.
+        </p>
+
+        <div class="hero-actions-row">
+          <a href="#katalog" class="btn-brown-solid">
+            Lihat Contoh Katalog
+            <span class="btn-arrow-circle"><svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12l7 7 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </a>
+          <a href="https://wa.me/6281311506025?text=Halo%20Dar%20Dev,%20saya%20tertarik%20dengan%20rancangan%20platform%20GALLOP%20Umroh" target="_blank" class="btn-brown-outline">
+            Diskusikan Bersama Dar Dev
+            <span class="btn-arrow-circle"><svg viewBox="0 0 24 24" fill="none"><path d="M7 17 17 7M9 7h8v8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </a>
+        </div>
       </div>
 
-      <!-- HERO SUMMARY METRICS GRID -->
-      <div class="hero-summary-grid" style="grid-template-columns: repeat(3, 1fr); max-width: 980px;">
-        <div class="summary-card-clean">
-          <span class="summary-card-label">01. TERKUMPUL RAPI</span>
-          <div class="summary-card-val" style="margin-top: 6px;">
-            <span style="font-weight: 400;">Satu Tempat untuk Semua</span>
-            <span style="font-size: 11.5px; color: #047857; font-weight: 300; display: block; margin-top: 2px;">Solusi praktis pengganti informasi tercecer di grup WA/IG.</span>
+      <!-- MARQUEE: infinite scrolling category strip -->
+      <div class="hero-marquee-wrap marquee" data-reveal>
+        <div class="marquee-track">
+          <span class="marquee-chip"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="8" width="18" height="9" rx="2" stroke="currentColor" stroke-width="2"/></svg>Transportasi</span>
+          <span class="marquee-chip"><svg viewBox="0 0 24 24" fill="none"><path d="M6 3v6a6 6 0 0 0 12 0V3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Berkuda</span>
+          <span class="marquee-chip"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/></svg>Padel</span>
+          <span class="marquee-chip"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="7" width="18" height="13" rx="2" stroke="currentColor" stroke-width="2"/></svg>Dokumentasi</span>
+          <span class="marquee-chip"><svg viewBox="0 0 24 24" fill="none"><path d="M6 2v7a2 2 0 0 0 2 2v11M6 2v20M10 2v9M18 2c-2 1-2 4-2 6s0 4 2 5v9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Kuliner</span>
+          <span class="marquee-chip"><svg viewBox="0 0 24 24" fill="none"><path d="M17 3l4 4-4 4M21 7H8M7 21l-4-4 4-4M3 17h13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>GMC Transfer</span>
+          <span class="marquee-chip"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3l2.6 5.9 6.4.6-4.8 4.3 1.4 6.2L12 16.9 6.4 20l1.4-6.2L3 9.5l6.4-.6z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>Oleh-oleh</span>
+          <!-- duplicate for seamless loop -->
+          <span class="marquee-chip"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="8" width="18" height="9" rx="2" stroke="currentColor" stroke-width="2"/></svg>Transportasi</span>
+          <span class="marquee-chip"><svg viewBox="0 0 24 24" fill="none"><path d="M6 3v6a6 6 0 0 0 12 0V3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Berkuda</span>
+          <span class="marquee-chip"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/></svg>Padel</span>
+          <span class="marquee-chip"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="7" width="18" height="13" rx="2" stroke="currentColor" stroke-width="2"/></svg>Dokumentasi</span>
+          <span class="marquee-chip"><svg viewBox="0 0 24 24" fill="none"><path d="M6 2v7a2 2 0 0 0 2 2v11M6 2v20M10 2v9M18 2c-2 1-2 4-2 6s0 4 2 5v9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Kuliner</span>
+          <span class="marquee-chip"><svg viewBox="0 0 24 24" fill="none"><path d="M17 3l4 4-4 4M21 7H8M7 21l-4-4 4-4M3 17h13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>GMC Transfer</span>
+          <span class="marquee-chip"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3l2.6 5.9 6.4.6-4.8 4.3 1.4 6.2L12 16.9 6.4 20l1.4-6.2L3 9.5l6.4-.6z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>Oleh-oleh</span>
+        </div>
+      </div>
+
+      <!-- HERO BENTO GRID -->
+      <div class="hero-bento" data-reveal>
+        <div class="bento-card big">
+          <div>
+            <span class="bento-eyebrow">Mudah & tanpa rumit</span>
+            <h3>Cari → pilih → chat WA. Langsung terhubung ke penyedia, tanpa aplikasi baru.</h3>
+          </div>
+          <div class="bento-flow">
+            <span><svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8"/><path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Cari Layanan</span>
+            <span><svg viewBox="0 0 24 24" fill="none"><path d="M13 2 4 14h6l-1 8 9-12h-6z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>Pilih</span>
+            <span><svg viewBox="0 0 24 24" fill="none"><path d="M21 11.5a8.5 8.5 0 0 1-12.4 7.55L3 21l2.05-5.4A8.5 8.5 0 1 1 21 11.5z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>Chat WA</span>
           </div>
         </div>
 
-        <div class="summary-card-clean" style="background: #ecfdf5; border-color: #064e3b;">
-          <span class="summary-card-label" style="color: #064e3b;">02. MUDAH & TANPA RUMIT</span>
-          <div class="summary-card-val" style="margin-top: 6px;">
-            <span style="font-weight: 400;">Cari → Pilih → Chat WA</span>
-            <span style="font-size: 11.5px; color: #022c22; font-weight: 300; display: block; margin-top: 2px;">Langsung terhubung ke WA penyedia tanpa aplikasi baru.</span>
+        <div class="bento-card small">
+          <span class="bento-icon-wrap"><svg viewBox="0 0 24 24" fill="none"><path d="M4 21V6l8-4 8 4v15" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 21v-6h6v6" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
+          <div>
+            <h4>Satu tempat untuk semua</h4>
+            <p>Solusi praktis pengganti informasi tercecer di grup WA/IG.</p>
           </div>
         </div>
 
-        <div class="summary-card-clean">
-          <span class="summary-card-label">03. CEPAT DI HP & TANPA LOGIN</span>
-          <div class="summary-card-val" style="margin-top: 6px;">
-            <span style="font-weight: 400;">Akses Instant Tanpa Akun</span>
-            <span style="font-size: 11.5px; color: #047857; font-weight: 300; display: block; margin-top: 2px;">Jamaah bisa langsung cari layanan tanpa ribet mendaftar.</span>
+        <div class="bento-card small">
+          <span class="bento-icon-wrap"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
+          <div>
+            <h4>Akses instan tanpa akun</h4>
+            <p>Jamaah bisa langsung cari layanan tanpa ribet mendaftar.</p>
           </div>
         </div>
       </div>
@@ -350,217 +620,208 @@
   <!-- SECTION 1 & 2: GAMBARAN UMUM & KONSEP UTAMA -->
   <section class="section-clean" id="konsep">
     <div class="container">
-      <div class="section-head-clean">
-        <h2 class="head-title">Satu Tempat untuk Berbagai Kebutuhan Jamaah</h2>
+      <div class="section-head-clean" style="text-align:center;" data-reveal>
+        <span class="section-numeral">01</span>
+        <span class="eyebrow">Mengapa GALLOP</span>
+        <h2 class="head-title">Satu tempat untuk berbagai kebutuhan jamaah</h2>
         <p class="head-desc">
           Saat ini informasi layanan tambahan umroh masih tersebar di grup WhatsApp & Instagram. GALLOP hadir merapikan semuanya menjadi katalog digital terstruktur.
         </p>
       </div>
 
-      <div class="grid-2-compact" style="gap: 20px;">
-        <div class="clean-box">
-          <span style="font-size: 11.5px; font-weight: 400; color: #047857; text-transform: uppercase;">01 — Gambaran Umum</span>
-          <h3 style="font-size: 20px; font-weight: 300; color: #064e3b; margin: 6px 0 10px;">Mengapa Platform Ini Dibutuhkan?</h3>
-          <p style="font-size: 13.5px; color: #022c22; line-height: 1.55; margin-bottom: 12px;">
+      <div class="grid-2-compact" style="gap: 22px;" data-reveal-group>
+        <div class="clean-box" data-reveal>
+          <span style="font-size: 11.5px; font-weight: 700; color: var(--emerald-700); text-transform: uppercase; letter-spacing: 0.04em;">01 — Gambaran Umum</span>
+          <h3 style="font-size: 21px; color: var(--emerald-900); margin: 8px 0 10px;">Mengapa platform ini dibutuhkan?</h3>
+          <p style="font-size: 13.5px; color: #33544a; line-height: 1.6; margin-bottom: 14px;">
             Selama di Makkah & Madinah, jamaah sering memerlukan layanan pendukung di sela ibadah. GALLOP menyediakan katalog lengkap agar jamaah dapat membandingkan harga & fasilitas dengan mudah.
           </p>
-          <div style="background: #f0fdf4; padding: 12px; border-radius: 10px; border: 1px solid #a7f3d0; font-size: 12.5px; color: #064e3b; font-weight: 400;">
-            "Dulu: Bingung cari nomor driver/fotografer di grup WA → Sekarang: Buka GALLOP → Cari → Hubungi via WA."
+          <div class="quote-strip">
+            "Dulu: bingung cari nomor driver/fotografer di grup WA. Sekarang: buka GALLOP → cari → hubungi via WA."
           </div>
         </div>
 
-        <div class="clean-box highlight">
-          <span style="font-size: 11.5px; font-weight: 400; color: #064e3b; text-transform: uppercase;">02 — Konsep Utama</span>
-          <h3 style="font-size: 20px; font-weight: 900; color: #064e3b; margin: 6px 0 10px;">Alur Penggunaan Sangat Sederhana</h3>
-          <p style="font-size: 13.5px; color: #022c22; line-height: 1.55; margin-bottom: 14px;">
+        <div class="clean-box highlight" data-reveal>
+          <span style="font-size: 11.5px; font-weight: 700; color: var(--emerald-800); text-transform: uppercase; letter-spacing: 0.04em;">02 — Konsep Utama</span>
+          <h3 style="font-size: 21px; color: var(--emerald-900); margin: 8px 0 10px;">Alur penggunaan sangat sederhana</h3>
+          <p style="font-size: 13.5px; color: #33544a; line-height: 1.6; margin-bottom: 16px;">
             Sistem dibuat tanpa proses pembayaran online yang rumit. Jamaah cukup memilih layanan dan langsung terhubung dengan penyedia via WhatsApp.
           </p>
-          <div class="flow-banner-pill" style="background: white; border: 1.5px solid #064e3b; font-weight: 300;">
-            <span style="color: #064e3b; font-weight: 400;">Cari Layanan</span> &nbsp;→&nbsp; <span style="color: #064e3b; font-weight: 400;">Lihat Detail & Harga</span> &nbsp;→&nbsp; <span style="color: #064e3b; font-weight: 400;">Pilih</span> &nbsp;→&nbsp; <span style="color: #064e3b; font-weight: 400;">Kirim via WhatsApp</span>
+          <div class="flow-banner-pill" style="background: white;">
+            <span>Cari Layanan</span> &nbsp;→&nbsp; <span>Lihat Detail & Harga</span> &nbsp;→&nbsp; <span>Pilih</span> &nbsp;→&nbsp; <span>Kirim via WhatsApp</span>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- SECTION: INFOGRAFIS INTERAKTIF - ALUR PEMESANAN JAMAAH (4 STEPS INFOGRAPHIC) -->
-  <section class="section-clean bg-subtle" id="user-flow" style="background: #f0fdf4;">
+  <!-- DARK BAND: INFOGRAFIS ALUR PEMESANAN — HORIZONTAL SNAP CAROUSEL -->
+  <section class="section-clean section-dark" id="user-flow">
     <div class="container">
-      <div class="section-head-clean">
-        <h2 class="head-title">Infografis Alur Pemesanan Jamaah</h2>
+      <div class="section-head-clean" style="text-align:center;" data-reveal>
+        <span class="section-numeral">02</span>
+        <span class="eyebrow">Geser untuk lihat semua</span>
+        <h2 class="head-title">Infografis alur pemesanan jamaah</h2>
         <p class="head-desc">
           Bagaimana jamaah menemukan & memesan layanan tambahan hanya dalam 4 langkah mudah:
         </p>
       </div>
 
-      <!-- VISUAL CONNECTED STEPS GRID -->
-      <div class="grid-4-compact" style="gap: 16px;">
-        
-        <!-- STEP 1 -->
-        <div class="flow-step-card">
-          <div class="flow-step-num">01</div>
-          <h4 style="font-size: 16px; color: #064e3b; margin-bottom: 6px; font-weight: 400;">🔍 1. Buka & Cari</h4>
-          <p style="font-size: 12.5px; color: #047857; line-height: 1.5;">
-            Jamaah membuka website dari HP & mencari kebutuhan (Berkuda, GMC, Kopi, Fotografer).
-          </p>
+      <div class="snap-row" data-reveal-group>
+
+        <div class="track-step" data-reveal>
+          <span class="track-step-num">01</span>
+          <h4><svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8"/><path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Buka & cari</h4>
+          <p>Jamaah membuka website dari HP & mencari kebutuhan (berkuda, GMC, kopi, fotografer).</p>
         </div>
 
-        <!-- STEP 2 -->
-        <div class="flow-step-card">
-          <div class="flow-step-num">02</div>
-          <h4 style="font-size: 16px; color: #064e3b; margin-bottom: 6px; font-weight: 400;">📄 2. Lihat Detail</h4>
-          <p style="font-size: 12.5px; color: #047857; line-height: 1.5;">
-            Cek foto jernih, lokasi, penjelasan harga transparan, & rating ⭐ dari jamaah lain.
-          </p>
+        <div class="track-step" data-reveal>
+          <span class="track-step-num">02</span>
+          <h4><svg viewBox="0 0 24 24" fill="none"><path d="M7 3h7l5 5v13H7z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M14 3v5h5M9 13h6M9 17h6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Lihat detail</h4>
+          <p>Cek foto jernih, lokasi, penjelasan harga transparan, & rating dari jamaah lain.</p>
         </div>
 
-        <!-- STEP 3 -->
-        <div class="flow-step-card">
-          <div class="flow-step-num">03</div>
-          <h4 style="font-size: 16px; color: #064e3b; margin-bottom: 6px; font-weight: 400;">📲 3. Isi Rincian</h4>
-          <p style="font-size: 12.5px; color: #047857; line-height: 1.5;">
-            Isi tanggal & catatan khusus. Sistem secara otomatis menyusun kalimat pesan WhatsApp.
-          </p>
+        <div class="track-step" data-reveal>
+          <span class="track-step-num">03</span>
+          <h4><svg viewBox="0 0 24 24" fill="none"><path d="M4 5h16M4 12h16M4 19h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Isi rincian</h4>
+          <p>Isi tanggal & catatan khusus. Sistem otomatis menyusun kalimat pesan WhatsApp.</p>
         </div>
 
-        <!-- STEP 4 -->
-        <div class="flow-step-card" style="background: #ecfdf5; border: 2px solid #064e3b;">
-          <div class="flow-step-num" style="background: #064e3b; color: white;">04</div>
-          <h4 style="font-size: 16px; color: #064e3b; margin-bottom: 6px; font-weight: 500;">🚀 4. Kirim WA!</h4>
-          <p style="font-size: 12.5px; color: #022c22; line-height: 1.5;">
-            Aplikasi WA terbuka instant & pesan langsung terkirim ke WhatsApp penyedia jasa!
-          </p>
+        <div class="track-step finish" data-reveal>
+          <span class="track-step-num">04</span>
+          <h4><svg viewBox="0 0 24 24" fill="none"><path d="M5 21V4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M5 4h14l-3.5 4L19 12H5" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>Kirim WA</h4>
+          <p>Aplikasi WA terbuka instan & pesan langsung terkirim ke WhatsApp penyedia jasa.</p>
         </div>
 
       </div>
+      <div class="snap-hint"><svg viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Geser untuk lihat langkah selanjutnya</div>
     </div>
   </section>
 
-  <!-- SECTION: DIAGRAM EKOSISTEM INTERAKTIF (3-LAYER VISUAL ARCHITECTURE) -->
+  <!-- SECTION: DIAGRAM EKOSISTEM INTERAKTIF -->
   <section class="section-clean" id="diagram-ekosistem">
     <div class="container">
-      <div class="section-head-clean">
-        <h2 class="head-title">Diagram Interaksi Ekosistem Platform</h2>
+      <div class="section-head-clean" style="text-align:center;" data-reveal>
+        <span class="section-numeral">03</span>
+        <span class="eyebrow">Bagaimana semuanya terhubung</span>
+        <h2 class="head-title">Diagram interaksi ekosistem platform</h2>
         <p class="head-desc">
-          Visualisasi sederhana bagaimana Pengguna, Platform GALLOP, & Penyedia Jasa saling terhubung secara otomatis.
+          Visualisasi sederhana bagaimana pengguna, platform GALLOP, & penyedia jasa saling terhubung secara otomatis.
         </p>
       </div>
 
-      <!-- VISUAL ECOSYSTEM MAP CONTAINER -->
-      <div style="background: #ffffff; border: 1.5px solid #a7f3d0; border-radius: 24px; padding: 32px 24px; box-shadow: 0 4px 16px rgba(6, 78, 59, 0.04);">
-        <div class="grid-3-compact" style="gap: 20px; align-items: center;">
-          
-          <!-- LAYER 1: JAMAAH -->
-          <div style="background: #f0fdf4; border: 1.5px solid #a7f3d0; border-radius: 18px; padding: 24px; text-align: center;">
-            <div style="font-size: 32px; margin-bottom: 8px;">👤</div>
-            <h4 style="font-size: 17px; color: #064e3b; font-weight: 400; margin-bottom: 4px;">1. Jamaah Umroh</h4>
-            <span style="font-size: 12px; color: #047857; display: block; margin-bottom: 10px;">(Akses dari HP via Web)</span>
-            <div style="font-size: 11.5px; background: white; padding: 8px; border-radius: 8px; border: 1px solid #a7f3d0; color: #022c22;">
-              ✓ Pilih Layanan<br>✓ Tanpa Perlu Akun
-            </div>
+      <div class="diagram-panel" data-reveal>
+        <div class="diagram-flow">
+
+          <div class="diagram-node">
+            <div class="diagram-node-icon"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.8"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+            <h4>1. Jamaah umroh</h4>
+            <span class="diagram-node-sub">Akses dari HP via web</span>
+            <div class="diagram-node-facts">— Pilih layanan<br>— Tanpa perlu akun</div>
           </div>
 
-          <!-- CONNECTOR / MIDDLE: PLATFORM GALLOP -->
-          <div style="background: #064e3b; border-radius: 18px; padding: 24px; text-align: center; color: white;">
-            <div style="font-size: 32px; margin-bottom: 8px;">⚡</div>
-            <h4 style="font-size: 17px; color: white; font-weight: 400; margin-bottom: 4px;">2. Platform GALLOP</h4>
-            <span style="font-size: 12px; color: #a7f3d0; display: block; margin-bottom: 10px;">(Sistem Katalog Otomatis)</span>
-            <div style="font-size: 11.5px; background: rgba(255,255,255,0.12); padding: 8px; border-radius: 8px; border: 1px solid #047857; color: white;">
-              ✓ Katalog & Filter Kota<br>✓ Form Generator WA
-            </div>
+          <div class="diagram-arrow"><svg viewBox="0 0 44 20" fill="none"><path d="M2 10h36M30 3l10 7-10 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+
+          <div class="diagram-node core">
+            <div class="diagram-node-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M13 2 4 14h6l-1 8 9-12h-6z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></div>
+            <h4>2. Platform GALLOP</h4>
+            <span class="diagram-node-sub">Sistem katalog otomatis</span>
+            <div class="diagram-node-facts">— Katalog & filter kota<br>— Form generator WA</div>
           </div>
 
-          <!-- LAYER 3: VENDOR -->
-          <div style="background: #f0fdf4; border: 1.5px solid #a7f3d0; border-radius: 18px; padding: 24px; text-align: center;">
-            <div style="font-size: 32px; margin-bottom: 8px;">🏢</div>
-            <h4 style="font-size: 17px; color: #064e3b; font-weight: 400; margin-bottom: 4px;">3. Penyedia Jasa</h4>
-            <span style="font-size: 12px; color: #047857; display: block; margin-bottom: 10px;">(Vendor di Saudi)</span>
-            <div style="font-size: 11.5px; background: white; padding: 8px; border-radius: 8px; border: 1px solid #a7f3d0; color: #022c22;">
-              ✓ Terima Pesan WA<br>✓ Layani Jamaah
-            </div>
+          <div class="diagram-arrow"><svg viewBox="0 0 44 20" fill="none"><path d="M2 10h36M30 3l10 7-10 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+
+          <div class="diagram-node">
+            <div class="diagram-node-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M4 21V6l8-4 8 4v15" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 21v-6h6v6M9 10h.01M15 10h.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+            <h4>3. Penyedia jasa</h4>
+            <span class="diagram-node-sub">Vendor di Saudi</span>
+            <div class="diagram-node-facts">— Terima pesan WA<br>— Layani jamaah</div>
           </div>
 
         </div>
 
-        <!-- SUMMARY FLOW BAR -->
-        <div style="margin-top: 24px; background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 50px; padding: 12px 20px; text-align: center; font-size: 12.5px; color: #064e3b; font-weight: 300;">
-          <strong>Alur Ringkas:</strong> Jamaah Buka Website → Sistem GALLOP Susun Pesan → Pesan Masuk Langsung ke WhatsApp Penyedia Jasa! 📲
+        <div class="diagram-summary">
+          <strong>Alur ringkas —</strong> Jamaah buka website → sistem GALLOP susun pesan → pesan masuk langsung ke WhatsApp penyedia jasa.
         </div>
       </div>
     </div>
   </section>
 
-  <!-- SECTION: KONTEN KATEGORI & DATA PENYEDIA (SIMPLIFIED DATA STRUCTURE) -->
-  <section class="section-clean bg-subtle" id="kategori-data" style="background: #f0fdf4;">
+  <!-- SECTION: KONTEN KATEGORI & DATA PENYEDIA -->
+  <section class="section-clean bg-subtle" id="kategori-data">
     <div class="container">
-      <div class="section-head-clean">
-        <h2 class="head-title">3 Pilar Informasi Utama dalam Sistem</h2>
+      <div class="section-head-clean" style="text-align:center;" data-reveal>
+        <span class="section-numeral">04</span>
+        <span class="eyebrow">Struktur data</span>
+        <h2 class="head-title">3 pilar informasi utama dalam sistem</h2>
         <p class="head-desc">
           Bagaimana data disimpan dan ditampilkan secara rapi untuk jamaah:
         </p>
       </div>
 
-      <div class="grid-3-compact">
-        <!-- GROUP 1: PENYEDIA JASA -->
-        <div class="table-spec-box">
-          <div style="margin-bottom: 10px; border-bottom: 1.5px solid #a7f3d0; padding-bottom: 8px;">
-            <strong style="font-size: 15px; color: #064e3b; font-weight: 400;">🏢 Informasi Penyedia (Vendor)</strong>
+      <div class="pillar-row" data-reveal>
+        <div class="pillar-item">
+          <div class="pillar-head">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M4 21V6l8-4 8 4v15" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 21v-6h6v6" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+            <strong>Informasi penyedia (vendor)</strong>
           </div>
-          <ul style="list-style: none; display: flex; flex-direction: column; gap: 6px; font-size: 12.5px; color: #022c22;">
-            <li>✓ Nama Usaha / Rental / Resto</li>
-            <li>✓ Nomor WhatsApp Resmi</li>
-            <li>✓ Lokasi (Makkah / Madinah / Jeddah)</li>
-            <li>✓ Jam Operasional Usaha</li>
-            <li>✓ Profil & Deskripsi Singkat</li>
+          <ul>
+            <li>Nama usaha / rental / resto</li>
+            <li>Nomor WhatsApp resmi</li>
+            <li>Lokasi (Makkah / Madinah / Jeddah)</li>
+            <li>Jam operasional usaha</li>
+            <li>Profil & deskripsi singkat</li>
           </ul>
         </div>
 
-        <!-- GROUP 2: KATALOG LAYANAN -->
-        <div class="table-spec-box">
-          <div style="margin-bottom: 10px; border-bottom: 1.5px solid #a7f3d0; padding-bottom: 8px;">
-            <strong style="font-size: 15px; color: #064e3b; font-weight: 400;">📦 Katalog Layanan</strong>
+        <div class="pillar-item">
+          <div class="pillar-head">
+            <svg viewBox="0 0 24 24" fill="none"><rect x="4" y="7" width="16" height="13" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" stroke="currentColor" stroke-width="1.8"/></svg>
+            <strong>Katalog layanan</strong>
           </div>
-          <ul style="list-style: none; display: flex; flex-direction: column; gap: 6px; font-size: 12.5px; color: #022c22;">
-            <li>✓ Nama Paket Layanan</li>
-            <li>✓ Kategori (Transportasi/Aktivitas/Kopi)</li>
-            <li>✓ Harga Transparan (SAR / Rp)</li>
-            <li>✓ Durasi & Jadwal Ketersediaan</li>
-            <li>✓ Foto Layanan Jernih</li>
+          <ul>
+            <li>Nama paket layanan</li>
+            <li>Kategori (transportasi / aktivitas / kopi)</li>
+            <li>Harga transparan (SAR / Rp)</li>
+            <li>Durasi & jadwal ketersediaan</li>
+            <li>Foto layanan jernih</li>
           </ul>
         </div>
 
-        <!-- GROUP 3: RATING & ULASAN -->
-        <div class="table-spec-box">
-          <div style="margin-bottom: 10px; border-bottom: 1.5px solid #a7f3d0; padding-bottom: 8px;">
-            <strong style="font-size: 15px; color: #064e3b; font-weight: 400;">⭐ Rating & Ulasan Jamaah</strong>
+        <div class="pillar-item">
+          <div class="pillar-head">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 3l2.6 5.9 6.4.6-4.8 4.3 1.4 6.2L12 16.9 6.4 20l1.4-6.2L3 9.5l6.4-.6z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+            <strong>Rating & ulasan jamaah</strong>
           </div>
-          <ul style="list-style: none; display: flex; flex-direction: column; gap: 6px; font-size: 12.5px; color: #022c22;">
-            <li>✓ Nama Jamaah Pembuat Ulasan</li>
-            <li>✓ Penilaian Bintang 1 sampai 5 ⭐</li>
-            <li>✓ Catatan Pengalaman Asli Jamaah</li>
-            <li>✓ Tanggal Ulasan Ditulis</li>
+          <ul>
+            <li>Nama jamaah pembuat ulasan</li>
+            <li>Penilaian bintang 1 sampai 5</li>
+            <li>Catatan pengalaman asli jamaah</li>
+            <li>Tanggal ulasan ditulis</li>
           </ul>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- SECTION: KATALOG INTERAKTIF & SEARCH SHOWCASE -->
+  <!-- SECTION: KATALOG — HORIZONTAL SNAP CAROUSEL -->
   <section class="section-clean" id="katalog">
     <div class="container">
-      <div class="section-head-clean">
-        <h2 class="head-title">Contoh Tampilan Katalog Layanan</h2>
+      <div class="section-head-clean" style="text-align:center;" data-reveal>
+        <span class="section-numeral">05</span>
+        <span class="eyebrow">Live showcase</span>
+        <h2 class="head-title">Contoh tampilan katalog layanan</h2>
         <p class="head-desc">
           Jamaah dapat memfilter layanan berdasarkan kata kunci, kategori, & kota.
         </p>
       </div>
 
       <!-- SEARCH BAR MOCKUP -->
-      <div style="background: #f0fdf4; padding: 18px; border-radius: 16px; border: 1.5px solid #a7f3d0; margin-bottom: 24px;">
+      <div class="catalog-toolbar" style="padding: 18px; border-radius: 18px; margin-bottom: 26px;" data-reveal>
         <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-          <input type="text" id="gallop-search-input" class="erd-search-clean" style="max-width: 100%; flex: 1; border-color: #a7f3d0; font-weight: 300;" placeholder="Cari layanan (cth: Berkuda di Madinah, Transportasi Jeddah, Fotografer Makkah)...">
-          <select id="gallop-city-filter" style="padding: 10px 16px; border-radius: 50px; border: 1.5px solid #a7f3d0; font-size: 13px; font-weight: 400; color: #064e3b; outline: none; background: white;">
-            <option value="all">📍 Semua Lokasi</option>
+          <input type="text" id="gallop-search-input" class="erd-search-clean" style="max-width: 100%; flex: 1;" placeholder="Cari layanan (cth: Berkuda di Madinah, Transportasi Jeddah, Fotografer Makkah)...">
+          <select id="gallop-city-filter" style="padding: 10px 16px; border-radius: 50px; border: 1px solid var(--sage-border); font-size: 13px; font-weight: 600; color: var(--emerald-800); outline: none; background: white;">
+            <option value="all">Semua Lokasi</option>
             <option value="madinah">Madinah</option>
             <option value="makkah">Makkah</option>
             <option value="jeddah">Jeddah</option>
@@ -569,82 +830,98 @@
       </div>
 
       <!-- CARDS KATALOG SHOWCASE -->
-      <div class="catalog-card-grid" id="gallop-catalog-container">
+      <div class="catalog-card-grid" id="gallop-catalog-container" data-reveal-group>
         <!-- ITEM 1 -->
-        <div class="catalog-item-card">
-          <div>
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-              <span class="catalog-tag">🐎 Olahraga & Aktivitas</span>
-              <span style="font-size: 12px; font-weight: 400; color: #064e3b;">⭐ 4.8</span>
+        <div class="catalog-item-card" data-reveal>
+          <div class="catalog-top-bar"></div>
+          <div class="catalog-body">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+              <span class="catalog-tag" style="display:inline-flex; align-items:center; gap:5px;">
+                <svg viewBox="0 0 24 24" fill="none" style="width:12px;height:12px;stroke:currentColor;stroke-width:2"><path d="M6 3v6a6 6 0 0 0 12 0V3"/></svg>
+                Olahraga & Aktivitas
+              </span>
+              <span class="rating-chip"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.9 6.4.6-4.8 4.3 1.4 6.2L12 16.9 6.4 20l1.4-6.2L3 9.5l6.4-.6z"/></svg> 4.8</span>
             </div>
-            <h4 style="font-size: 16px; font-weight: 400; color: #064e3b; margin-bottom: 4px;">Horse Riding Experience Madinah</h4>
-            <span style="font-size: 12px; color: #047857; display: block; margin-bottom: 10px;">📍 Madinah • Penyedia: Madinah Equestrian</span>
+            <h4 style="font-size: 16px; font-weight: 700; color: var(--emerald-900); margin-bottom: 4px;">Horse Riding Experience Madinah</h4>
+            <span style="font-size: 12px; color: var(--emerald-700); display: block;">Madinah • Penyedia: Madinah Equestrian</span>
           </div>
-          <div>
+          <div class="catalog-foot">
             <div class="price-sar" style="margin-bottom: 10px;">Mulai 100 SAR</div>
             <a href="#wa-booking" class="btn-brown-solid" style="width: 100%; justify-content: center; padding: 8px 14px; font-size: 12px;">Pesan via WA ↗</a>
           </div>
         </div>
 
         <!-- ITEM 2 -->
-        <div class="catalog-item-card">
-          <div>
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-              <span class="catalog-tag">🚐 Transportasi</span>
-              <span style="font-size: 12px; font-weight: 400; color: #064e3b;">⭐ 4.9</span>
+        <div class="catalog-item-card" data-reveal>
+          <div class="catalog-top-bar"></div>
+          <div class="catalog-body">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+              <span class="catalog-tag" style="display:inline-flex; align-items:center; gap:5px;">
+                <svg viewBox="0 0 24 24" fill="none" style="width:12px;height:12px;stroke:currentColor;stroke-width:2"><rect x="3" y="8" width="18" height="9" rx="2"/><path d="M7 8V6a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2M6 17v2M18 17v2"/></svg>
+                Transportasi
+              </span>
+              <span class="rating-chip"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.9 6.4.6-4.8 4.3 1.4 6.2L12 16.9 6.4 20l1.4-6.2L3 9.5l6.4-.6z"/></svg> 4.9</span>
             </div>
-            <h4 style="font-size: 16px; font-weight: 400; color: #064e3b; margin-bottom: 4px;">Private GMC Airport Transfer Jeddah → Makkah</h4>
-            <span style="font-size: 12px; color: #047857; display: block; margin-bottom: 10px;">📍 Jeddah / Makkah • Penyedia: Haramain Express</span>
+            <h4 style="font-size: 16px; font-weight: 700; color: var(--emerald-900); margin-bottom: 4px;">Private GMC Airport Transfer Jeddah → Makkah</h4>
+            <span style="font-size: 12px; color: var(--emerald-700); display: block;">Jeddah / Makkah • Penyedia: Haramain Express</span>
           </div>
-          <div>
+          <div class="catalog-foot">
             <div class="price-sar" style="margin-bottom: 10px;">Mulai 350 SAR</div>
             <a href="#wa-booking" class="btn-brown-solid" style="width: 100%; justify-content: center; padding: 8px 14px; font-size: 12px;">Pesan via WA ↗</a>
           </div>
         </div>
 
-        <!-- ITEM 3 -->
-        <div class="catalog-item-card">
-          <div>
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-              <span class="catalog-tag">📸 Dokumentasi</span>
-              <span style="font-size: 12px; font-weight: 400; color: #064e3b;">⭐ 5.0</span>
+        <!-- ITEM 3 — FEATURED (highest rated) -->
+        <div class="catalog-item-card featured" style="position: relative;" data-reveal>
+          <span class="featured-flag">Top Rated</span>
+          <div class="catalog-top-bar"></div>
+          <div class="catalog-body">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+              <span class="catalog-tag" style="display:inline-flex; align-items:center; gap:5px;">
+                <svg viewBox="0 0 24 24" fill="none" style="width:12px;height:12px;stroke:currentColor;stroke-width:2"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7 10 4h4l2 3"/><circle cx="12" cy="13" r="3.2"/></svg>
+                Dokumentasi
+              </span>
+              <span class="rating-chip"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.9 6.4.6-4.8 4.3 1.4 6.2L12 16.9 6.4 20l1.4-6.2L3 9.5l6.4-.6z"/></svg> 5.0</span>
             </div>
-            <h4 style="font-size: 16px; font-weight: 400; color: #064e3b; margin-bottom: 4px;">Specialist Umrah Photographer (Makkah & Nabawi)</h4>
-            <span style="font-size: 12px; color: #047857; display: block; margin-bottom: 10px;">📍 Makkah & Madinah • Penyedia: Kairo Vision Media</span>
+            <h4 style="font-size: 16px; font-weight: 700; color: var(--emerald-900); margin-bottom: 4px;">Specialist Umrah Photographer (Makkah & Nabawi)</h4>
+            <span style="font-size: 12px; color: var(--emerald-700); display: block;">Makkah & Madinah • Penyedia: Kairo Vision Media</span>
           </div>
-          <div>
+          <div class="catalog-foot">
             <div class="price-sar" style="margin-bottom: 10px;">Mulai 200 SAR</div>
             <a href="#wa-booking" class="btn-brown-solid" style="width: 100%; justify-content: center; padding: 8px 14px; font-size: 12px;">Pesan via WA ↗</a>
           </div>
         </div>
       </div>
+      <div class="snap-hint" style="color: var(--emerald-700);"><svg viewBox="0 0 24 24" fill="none" style="stroke: var(--emerald-700);"><path d="M9 6l6 6-6 6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Geser untuk lihat layanan lain</div>
     </div>
   </section>
 
   <!-- SECTION: SIMULATOR PEMESANAN WHATSAPP -->
-  <section class="section-clean bg-subtle" id="wa-booking" style="background: #f0fdf4;">
+  <section class="section-clean bg-subtle" id="wa-booking">
     <div class="container">
-      <div class="section-head-clean">
-        <h2 class="head-title">Simulasi Pemesanan Langsung ke WhatsApp</h2>
+      <div class="section-head-clean" style="text-align:center;" data-reveal>
+        <span class="section-numeral">06</span>
+        <span class="eyebrow">Coba interaktif</span>
+        <h2 class="head-title">Simulasi pemesanan langsung ke WhatsApp</h2>
         <p class="head-desc">
           Formulir pemesanan ringkas yang secara otomatis menyusun kalimat pesan rapi untuk dikirim ke penyedia jasa.
         </p>
       </div>
 
-      <div class="grid-2-compact" style="gap: 20px;">
+      <div class="grid-2-compact" style="gap: 26px; align-items: start;">
         <!-- FORM SIMULATOR -->
-        <div class="clean-box">
-          <h3 style="font-size: 18px; font-weight: 300; color: #064e3b; margin-bottom: 12px;">Form Rincian Pemesanan</h3>
-          
+        <div class="clean-box" data-reveal>
+          <h3 style="font-size: 18px; color: var(--emerald-900); margin-bottom: 14px;">Form rincian pemesanan</h3>
+
           <form id="gallop-booking-form">
             <div style="margin-bottom: 10px;">
-              <label style="font-size: 12px; font-weight: 400; color: #064e3b; display: block; margin-bottom: 4px;">Nama Jamaah Pemesan</label>
-              <input type="text" id="bk-nama" value="Ahmad Supriyadi" required style="width: 100%; padding: 8px 12px; border-radius: 8px; border: 1px solid #a7f3d0; font-size: 12.5px; font-weight: 300;">
+              <label style="font-size: 12px; font-weight: 700; color: var(--emerald-900); display: block; margin-bottom: 4px;">Nama Jamaah Pemesan</label>
+              <input type="text" id="bk-nama" value="Ahmad Supriyadi" required style="width: 100%; padding: 9px 12px; border-radius: 8px; border: 1px solid var(--sage-border); font-size: 12.5px; font-weight: 400;">
             </div>
 
             <div style="margin-bottom: 10px;">
-              <label style="font-size: 12px; font-weight: 400; color: #064e3b; display: block; margin-bottom: 4px;">Pilih Layanan</label>
-              <select id="bk-layanan" style="width: 100%; padding: 8px 12px; border-radius: 8px; border: 1px solid #a7f3d0; font-size: 12.5px; font-weight: 300;">
+              <label style="font-size: 12px; font-weight: 700; color: var(--emerald-900); display: block; margin-bottom: 4px;">Pilih Layanan</label>
+              <select id="bk-layanan" style="width: 100%; padding: 9px 12px; border-radius: 8px; border: 1px solid var(--sage-border); font-size: 12.5px; font-weight: 400;">
                 <option>Horse Riding Experience Madinah (100 SAR)</option>
                 <option>Private GMC Airport Transfer Jeddah → Makkah (350 SAR)</option>
                 <option>Specialist Umrah Photographer Makkah/Nabawi (200 SAR)</option>
@@ -653,30 +930,37 @@
 
             <div class="grid-2-compact" style="gap: 10px; margin-bottom: 10px;">
               <div>
-                <label style="font-size: 12px; font-weight: 400; color: #064e3b; display: block; margin-bottom: 4px;">Tanggal</label>
-                <input type="date" id="bk-tanggal" value="2026-12-25" style="width: 100%; padding: 8px 12px; border-radius: 8px; border: 1px solid #a7f3d0; font-size: 12.5px; font-weight: 300;">
+                <label style="font-size: 12px; font-weight: 700; color: var(--emerald-900); display: block; margin-bottom: 4px;">Tanggal</label>
+                <input type="date" id="bk-tanggal" value="2026-12-25" style="width: 100%; padding: 9px 12px; border-radius: 8px; border: 1px solid var(--sage-border); font-size: 12.5px; font-weight: 400;">
               </div>
               <div>
-                <label style="font-size: 12px; font-weight: 400; color: #064e3b; display: block; margin-bottom: 4px;">Jam & Jumlah Orang</label>
-                <input type="text" id="bk-jam-peserta" value="16.00 WIB / 3 Orang" style="width: 100%; padding: 8px 12px; border-radius: 8px; border: 1px solid #a7f3d0; font-size: 12.5px; font-weight: 300;">
+                <label style="font-size: 12px; font-weight: 700; color: var(--emerald-900); display: block; margin-bottom: 4px;">Jam & Jumlah Orang</label>
+                <input type="text" id="bk-jam-peserta" value="16.00 WIB / 3 Orang" style="width: 100%; padding: 9px 12px; border-radius: 8px; border: 1px solid var(--sage-border); font-size: 12.5px; font-weight: 400;">
               </div>
             </div>
 
-            <div style="margin-bottom: 14px;">
-              <label style="font-size: 12px; font-weight: 400; color: #064e3b; display: block; margin-bottom: 4px;">Catatan Tambahan</label>
-              <textarea id="bk-catatan" rows="2" style="width: 100%; padding: 8px 12px; border-radius: 8px; border: 1px solid #a7f3d0; font-size: 12.5px; font-weight: 300;">Minta jemput di Lobi Hotel Oberoi Madinah</textarea>
+            <div style="margin-bottom: 16px;">
+              <label style="font-size: 12px; font-weight: 700; color: var(--emerald-900); display: block; margin-bottom: 4px;">Catatan Tambahan</label>
+              <textarea id="bk-catatan" rows="2" style="width: 100%; padding: 9px 12px; border-radius: 8px; border: 1px solid var(--sage-border); font-size: 12.5px; font-weight: 400;">Minta jemput di Lobi Hotel Oberoi Madinah</textarea>
             </div>
 
-            <button type="submit" class="btn-brown-solid" style="width: 100%; justify-content: center; background: #064e3b; color: white;">
+            <button type="submit" class="btn-brown-solid" style="width: 100%; justify-content: center;">
               Kirim Pesanan ke WhatsApp Penyedia ↗
             </button>
           </form>
         </div>
 
-        <!-- WA LIVE PREVIEW -->
-        <div class="clean-box highlight">
-          <h3 style="font-size: 18px; font-weight: 300; color: #064e3b; margin-bottom: 12px;">Live Preview Pesan WhatsApp</h3>
-          <div class="wa-preview-box" id="wa-live-preview">
+        <!-- WA LIVE PREVIEW — PHONE MOCKUP -->
+        <div data-reveal>
+          <h3 style="font-size: 18px; color: var(--emerald-900); margin-bottom: 14px;">Live preview pesan WhatsApp</h3>
+          <div class="phone-mock">
+            <div class="phone-screen">
+              <div class="phone-topbar">
+                <span class="avatar"><svg viewBox="0 0 24 24" fill="none"><path d="M4 21V6l8-4 8 4v15" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></span>
+                Madinah Equestrian
+              </div>
+              <div class="phone-body">
+                <div class="wa-preview-box" id="wa-live-preview">
 📲 Rincian Pesanan GALLOP Umroh:
 
 👤 Nama: Ahmad Supriyadi
@@ -686,6 +970,9 @@
 📝 Catatan: Minta jemput di Lobi Hotel Oberoi Madinah
 
 Halo Penyedia Jasa, mohon konfirmasi ketersediaan pesanan. Terima kasih!
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -695,61 +982,65 @@ Halo Penyedia Jasa, mohon konfirmasi ketersediaan pesanan. Terima kasih!
   <!-- SECTION: ROADMAP FASE PENGERJAAN -->
   <section class="section-clean" id="roadmap">
     <div class="container">
-      <div class="section-head-clean">
-        <h2 class="head-title">Tahap Pengerjaan Platform</h2>
+      <div class="section-head-clean" style="text-align:center;" data-reveal>
+        <span class="section-numeral">07</span>
+        <span class="eyebrow">Perjalanan pembangunan</span>
+        <h2 class="head-title">Tahap pengerjaan platform</h2>
         <p class="head-desc">
           Dibangun bertahap dari katalog sederhana hingga menjadi ekosistem lengkap.
         </p>
       </div>
 
-      <div class="grid-4-compact" style="margin-bottom: 24px;">
-        <div style="background: white; border-radius: 14px; padding: 16px 12px; border: 1.5px solid #a7f3d0; text-align: center;">
-          <span style="font-size: 10.5px; font-weight: 400; color: #047857;">TAHAP 1</span>
-          <h4 style="font-size: 14px; font-weight: 400; margin: 4px 0 2px; color: #064e3b;">Katalog & Pencarian</h4>
-          <span style="font-size: 11.5px; color: #047857;">Peluncuran halaman pencarian & detail layanan.</span>
+      <div class="rail" style="max-width: 720px; margin: 0 auto;" data-reveal>
+        <div class="rail-item">
+          <div class="rail-dot"></div>
+          <span class="rail-phase">Tahap 1</span>
+          <h4>Katalog & pencarian</h4>
+          <p>Peluncuran halaman pencarian & detail layanan.</p>
         </div>
-
-        <div style="background: #ecfdf5; border-radius: 14px; padding: 16px 12px; border: 1.5px solid #064e3b; text-align: center;">
-          <span style="font-size: 10.5px; font-weight: 400; color: #064e3b;">TAHAP 2</span>
-          <h4 style="font-size: 14px; font-weight: 400; margin: 4px 0 2px; color: #064e3b;">Integrasi WhatsApp & Rating</h4>
-          <span style="font-size: 11.5px; color: #064e3b;">Pemesanan via WA, profil penyedia & ulasan bintang.</span>
+        <div class="rail-item active">
+          <div class="rail-dot"></div>
+          <span class="rail-phase">Tahap 2</span>
+          <h4>Integrasi WhatsApp & rating</h4>
+          <p>Pemesanan via WA, profil penyedia & ulasan bintang.</p>
         </div>
-
-        <div style="background: white; border-radius: 14px; padding: 16px 12px; border: 1.5px solid #a7f3d0; text-align: center;">
-          <span style="font-size: 10.5px; font-weight: 400; color: #047857;">TAHAP 3</span>
-          <h4 style="font-size: 14px; font-weight: 400; margin: 4px 0 2px; color: #064e3b;">Dashboard Penyedia</h4>
-          <span style="font-size: 11.5px; color: #047857;">Halaman khusus vendor untuk update harga & foto.</span>
+        <div class="rail-item">
+          <div class="rail-dot"></div>
+          <span class="rail-phase">Tahap 3</span>
+          <h4>Dashboard penyedia</h4>
+          <p>Halaman khusus vendor untuk update harga & foto.</p>
         </div>
-
-        <div style="background: white; border-radius: 14px; padding: 16px 12px; border: 1.5px solid #a7f3d0; text-align: center;">
-          <span style="font-size: 10.5px; font-weight: 400; color: #047857;">TAHAP 4</span>
-          <h4 style="font-size: 14px; font-weight: 400; margin: 4px 0 2px; color: #064e3b;">Pengembangan Lanjutan</h4>
-          <span style="font-size: 11.5px; color: #047857;">Peta lokasi, voucher promo & pembayaran online.</span>
+        <div class="rail-item">
+          <div class="rail-dot"></div>
+          <span class="rail-phase">Tahap 4</span>
+          <h4>Pengembangan lanjutan</h4>
+          <p>Peta lokasi, voucher promo & pembayaran online.</p>
         </div>
       </div>
     </div>
   </section>
 
   <!-- SECTION: CTA DISKUSI -->
-  <section class="section-clean" id="diskusikan">
+  <section class="section-clean" id="diskusikan" style="border-bottom: none;">
     <div class="container">
-      <div class="cta-clean-banner" style="background: #064e3b !important;">
-        <h2 style="color: white !important; font-weight: 300 !important;">Siap Mewujudkan Platform GALLOP Bersama Dar Dev?</h2>
-        <p style="font-size: 14px; color: #a7f3d0 !important; max-width: 660px; margin: 0 auto 20px; line-height: 1.5; font-weight: 300 !important;">
+      <div class="cta-clean-banner" data-reveal>
+        <h2 style="color: white !important;">Siap mewujudkan platform GALLOP bersama Dar Dev?</h2>
+        <p style="font-size: 14px; color: #cfe6da !important; max-width: 660px; margin: 0 auto 22px; line-height: 1.55; font-weight: 400 !important;">
           Tim Dar Dev siap mengeksekusi pembangunan platform katalog layanan jamaah umroh ini dengan cepat dan profesional.
         </p>
-        <a href="https://wa.me/6281311506025?text=Halo%20Dar%20Dev,%20saya%20tertarik%20dengan%20rancangan%20platform%20GALLOP%20Umroh" target="_blank" class="btn-brown-solid" style="padding: 12px 24px; font-size: 14px; background: #ffffff !important; color: #064e3b !important; font-weight: 400 !important; max-width: 100%; text-decoration: none;">
-          Diskusikan Pengerjaan Bersama Dar Dev ↗
+        <a href="https://wa.me/6281311506025?text=Halo%20Dar%20Dev,%20saya%20tertarik%20dengan%20rancangan%20platform%20GALLOP%20Umroh" target="_blank" class="btn-brown-solid" style="padding: 12px 12px 12px 26px; font-size: 14px; background: #ffffff !important; color: var(--emerald-800) !important; max-width: 100%; text-decoration: none; box-shadow: none;">
+          Diskusikan Pengerjaan Bersama Dar Dev
+          <span class="btn-arrow-circle" style="background: rgba(6,78,59,0.1);"><svg viewBox="0 0 24 24" fill="none" style="stroke: var(--emerald-800);"><path d="M7 17 17 7M9 7h8v8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
         </a>
       </div>
     </div>
   </section>
 
   <!-- FOOTER -->
-  <footer style="background: white; border-top: 1.5px solid #a7f3d0; padding: 28px 0; text-align: center; font-size: 12.5px; color: #047857; font-weight: 300;">
+  <footer style="border-top: 1px solid; padding: 30px 0; text-align: center; font-size: 12.5px; font-weight: 400;">
     <div class="container">
-      <div style="display: flex; justify-content: center; gap: 20px; margin-bottom: 10px; font-weight: 400; color: #064e3b; flex-wrap: wrap;">
-        <a href="../index.html" style="color: #064e3b; text-decoration: none;">← Kembali ke Ecosystem Qohiroh Center</a>
+      <div style="display: flex; justify-content: center; gap: 20px; margin-bottom: 10px; font-weight: 700; flex-wrap: wrap;">
+        <a href="index.html" style="text-decoration: none;">← Kembali ke Ecosystem Qohiroh Center</a>
         <span>•</span>
         <span>GALLOP — Umrah Service Directory Blueprint by Dar Dev</span>
       </div>
@@ -761,6 +1052,8 @@ Halo Penyedia Jasa, mohon konfirmasi ketersediaan pesanan. Terima kasih!
     document.addEventListener('DOMContentLoaded', () => {
       initGallopBookingSimulator();
       initGallopSearchFilter();
+      initScrollReveal();
+      initScrollProgress();
     });
 
     function initGallopBookingSimulator() {
@@ -818,6 +1111,51 @@ Halo Penyedia Jasa, mohon konfirmasi ketersediaan pesanan. Terima kasih!
 
       searchInput.addEventListener('input', filterItems);
       if (cityFilter) cityFilter.addEventListener('change', filterItems);
+    }
+
+    function initScrollReveal() {
+      const els = document.querySelectorAll('[data-reveal]');
+      if (!els.length) return;
+
+      if (!('IntersectionObserver' in window)) {
+        els.forEach(el => el.classList.add('is-visible'));
+        return;
+      }
+
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+
+      els.forEach(el => io.observe(el));
+    }
+
+    function initScrollProgress() {
+      const fill = document.getElementById('scrollProgressFill');
+      if (!fill) return;
+      let ticking = false;
+
+      function update() {
+        const doc = document.documentElement;
+        const scrollTop = doc.scrollTop || document.body.scrollTop;
+        const height = (doc.scrollHeight - doc.clientHeight) || 1;
+        const progress = Math.min(1, Math.max(0, scrollTop / height));
+        fill.style.transform = `scaleX(${progress})`;
+        ticking = false;
+      }
+
+      document.addEventListener('scroll', () => {
+        if (!ticking) {
+          requestAnimationFrame(update);
+          ticking = true;
+        }
+      }, { passive: true });
+
+      update();
     }
   </script>
 </body>

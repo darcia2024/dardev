@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dar Dev × Motion React App — Full Animasi Web Application</title>
+  <meta name="description" content="Aplikasi web React full animasi buatan Antigravity (Dar Dev) menggunakan Motion for React, Tailwind CSS, & Design System.">
+  
+  <!-- React & React DOM CDN -->
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  
+  <!-- Babel Compiler for JSX -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  
+  <!-- Framer Motion / Motion for React CDN -->
+  <script src="https://unpkg.com/framer-motion@10.16.4/dist/framer-motion.js"></script>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+      font-weight: 300;
+      color: #022c22;
+      background-color: #ffffff;
+      overflow-x: hidden;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState } = React;
+    const { motion, AnimatePresence } = window.Motion || window.framerMotion;
+
+    function App() {
+      const [selectedCity, setSelectedCity] = useState('all');
+      const [searchQuery, setSearchQuery] = useState('');
+      const [activeTab, setActiveTab] = useState('qohiroh');
+
+      // Booking Form State
+      const [nama, setNama] = useState('Ahmad Supriyadi');
+      const [layanan, setLayanan] = useState('Horse Riding Experience Madinah (100 SAR)');
+      const [tanggal, setTanggal] = useState('2026-12-25');
+      const [catatan, setCatatan] = useState('Minta jemput di Lobi Hotel Oberoi Madinah');
+      const [toastVisible, setToastVisible] = useState(false);
+
+      const services = [
+        {
+          id: 1,
+          title: 'Horse Riding Experience Madinah',
+          category: 'Aktivitas',
+          city: 'madinah',
+          price: '100 SAR',
+          rating: 4.8,
+          vendor: 'Madinah Equestrian',
+          icon: '🐎'
+        },
+        {
+          id: 2,
+          title: 'Private GMC Airport Transfer Jeddah → Makkah',
+          category: 'Transportasi',
+          city: 'jeddah',
+          price: '350 SAR',
+          rating: 4.9,
+          vendor: 'Haramain Express',
+          icon: '🚐'
+        },
+        {
+          id: 3,
+          title: 'Specialist Umrah Photographer (Makkah & Nabawi)',
+          category: 'Dokumentasi',
+          city: 'makkah',
+          price: '200 SAR',
+          rating: 5.0,
+          vendor: 'Kairo Vision Media',
+          icon: '📸'
+        },
+        {
+          id: 4,
+          title: 'Traditional Saudi Coffee & Culinary Tour',
+          category: 'Kuliner',
+          city: 'madinah',
+          price: '75 SAR',
+          rating: 4.7,
+          vendor: 'Hijaz Flavor Co.',
+          icon: '☕'
+        },
+        {
+          id: 5,
+          title: 'Ajwa Premium Dates & Souvenir Hotel Delivery',
+          category: 'Oleh-oleh',
+          city: 'makkah',
+          price: '120 SAR',
+          rating: 4.9,
+          vendor: 'Madinah Date Center',
+          icon: '🛍'
+        }
+      ];
+
+      const filteredServices = services.filter(s => {
+        const matchesSearch = s.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                              s.vendor.toLowerCase().includes(searchQuery.toLowerCase());
+        const matchesCity = selectedCity === 'all' || s.city === selectedCity;
+        return matchesSearch && matchesCity;
+      });
+
+      const handleBookingSubmit = (e) => {
+        e.preventDefault();
+        setToastVisible(true);
+        setTimeout(() => setToastVisible(false), 3000);
+
+        const text = encodeURIComponent(
+          `📲 Rincian Pesanan GALLOP Umroh:\n\n👤 Nama: ${nama}\n📦 Layanan: ${layanan}\n📅 Tanggal: ${tanggal}\n📝 Catatan: ${catatan}\n\nHalo Penyedia Jasa, mohon konfirmasi pesanan. Terima kasih!`
+        );
+        window.open(`https://wa.me/6281311506025?text=${text}`, '_blank');
+      };
+
+      return (
+        <div className="min-h-screen bg-white text-[#022c22] font-light">
+          
+          {/* TOP NOTICE BANNER */}
+          <motion.div 
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="bg-[#064e3b] text-white text-center py-2.5 px-4 text-xs font-light border-b border-[#047857]"
+          >
+            ✨ PLATFORM FULL ANIMASI (Motion for React + Vite + Tailwind) — Built by <strong>Antigravity (Dar Dev)</strong>
+          </motion.div>
+
+          {/* NAVBAR */}
+          <motion.header 
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-[#a7f3d0] py-4"
+          >
+            <div className="max-w-6xl mx-auto px-6 flex items-center justify-between">
+              <motion.a 
+                href="#" 
+                whileHover={{ scale: 1.02 }}
+                className="text-xl font-normal text-[#064e3b] no-underline tracking-tight"
+              >
+                Dar Dev <span className="text-[#047857] font-light">× Motion React</span>
+              </motion.a>
+
+              <div className="flex items-center gap-5">
+                <a href="#katalog" className="text-xs font-light text-[#022c22] hover:text-[#064e3b]">Katalog</a>
+                <a href="#wa-booking" className="text-xs font-light text-[#022c22] hover:text-[#064e3b]">Booking WA</a>
+                <motion.a 
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  href="https://wa.me/6281311506025?text=Halo%20Dar%20Dev,%20saya%20tertarik%20dengan%20Aplikasi%20React%20Motion"
+                  target="_blank"
+                  className="px-4 py-2 text-xs border border-[#064e3b] text-[#064e3b] rounded-full hover:bg-[#064e3b] hover:text-white transition-colors"
+                >
+                  Diskusi WA ↗
+                </motion.a>
+              </div>
+            </div>
+          </motion.header>
+
+          {/* HERO SECTION */}
+          <section className="py-16 text-center">
+            <div className="max-w-4xl mx-auto px-6">
+              
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.4 }}
+                className="inline-block bg-[#064e3b] text-white px-4 py-1.5 rounded-full text-xs uppercase tracking-wider mb-4 font-normal"
+              >
+                Full Animasi & Interactive Motion System
+              </motion.div>
+
+              <motion.h1
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+                className="text-3xl md:text-5xl font-light text-[#064e3b] leading-tight mb-5"
+              >
+                Aplikasi React Ekosistem Digital dengan Animasi Smooth
+              </motion.h1>
+
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="text-base text-[#047857] leading-relaxed mb-8 font-light max-w-2xl mx-auto"
+              >
+                Hasil eksekusi langsung alur 4 Tool (Motion for React + Vite + UI UX Pro Max Design System + Component Library) oleh <strong>Antigravity (Dar Dev)</strong> — Cepat, tanpa login, & terintegrasi ke WhatsApp <code>081311506025</code>.
+              </p>
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+                className="flex gap-4 justify-center flex-wrap"
+              >
+                <a href="#katalog" className="bg-[#064e3b] text-white px-7 py-3 rounded-full text-sm font-light hover:bg-[#022c22] transition-all shadow-md">
+                  Coba Katalog Motion ↓
+                </a>
+                <a 
+                  href="https://wa.me/6281311506025?text=Halo%20Dar%20Dev,%20saya%20tertarik%20diskusi%20React%20Motion" 
+                  target="_blank" 
+                  className="border border-[#064e3b] text-[#064e3b] px-7 py-3 rounded-full text-sm font-light hover:bg-[#064e3b] hover:text-white transition-all"
+                >
+                  Diskusikan Bersama Dar Dev ↗
+                </a>
+              </motion.div>
+
+            </div>
+          </section>
+
+          {/* INTERACTIVE TABS */}
+          <section className="py-12 bg-[#f0fdf4]">
+            <div className="max-w-4xl mx-auto px-6">
+              <div className="text-center mb-6">
+                <h2 className="text-2xl font-light text-[#064e3b] mb-1">Ekosistem Digital Interaktif</h2>
+                <p className="text-xs text-[#047857]">Klik tab untuk animasi pergantian mode secara instant:</p>
+              </div>
+
+              <div className="flex justify-center gap-3 mb-6">
+                {['qohiroh', 'gallop'].map((tabKey) => (
+                  <button
+                    key={tabKey}
+                    onClick={() => setActiveTab(tabKey)}
+                    className={`relative px-6 py-2.5 rounded-full text-xs transition-all border border-[#a7f3d0] ${
+                      activeTab === tabKey ? 'bg-[#064e3b] text-white' : 'bg-white text-[#064e3b]'
+                    }`}
+                  >
+                    {tabKey === 'qohiroh' ? '🏫 Qohiroh Center (2 Web)' : '🐎 GALLOP (Umrah Directory)'}
+                  </button>
+                ))}
+              </div>
+
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeTab}
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -15 }}
+                  transition={{ duration: 0.3 }}
+                  className="bg-white border border-[#a7f3d0] rounded-2xl p-6 shadow-sm"
+                >
+                  {activeTab === 'qohiroh' ? (
+                    <div>
+                      <h3 className="text-base font-normal text-[#064e3b] mb-2">
+                        Qohiroh Digital Ecosystem (2 Website Terpisah)
+                      </h3>
+                      <p className="text-xs text-[#047857] leading-relaxed">
+                        Arsitektur resmi untuk Ustadz Muhammad Iqbal, Lc: <strong>qohirohcenter.com</strong> (Public Website & Akun Seleksi Ujian) dan <strong>app.qohirohcenter.com</strong> (Portal Aplikasi Wali Family, Campus Santri, & Operations Staff dengan Auto-Generate Invoice SPP/Kuitansi Digital PDF).
+                      </p>
+                    </div>
+                  ) : (
+                    <div>
+                      <h3 className="text-base font-normal text-[#064e3b] mb-2">
+                        GALLOP — Platform Katalog Layanan Tambahan Jamaah Umroh
+                      </h3>
+                      <p className="text-xs text-[#047857] leading-relaxed">
+                        Katalog pusat untuk Transportasi GMC, Berkuda Madinah, Padel Makkah, Kuliner, Fotografi, & Laundry. Jamaah cukup memilih paket lalu mengirim pesan otomatis ke WhatsApp penyedia tanpa perlu mendaftar akun.
+                      </p>
+                    </div>
+                  )}
+                </motion.div>
+              </AnimatePresence>
+
+            </div>
+          </section>
+
+          {/* KATALOG SHOWCASE WITH MOTION HOVER */}
+          <section id="katalog" className="py-16">
+            <div className="max-w-6xl mx-auto px-6">
+              <div className="text-center mb-8">
+                <h2 className="text-2xl font-light text-[#064e3b] mb-1">Katalog Layanan Interaktif</h2>
+                <p className="text-xs text-[#047857]">Filter kota atau cari berdasarkan kata kunci:</p>
+              </div>
+
+              {/* SEARCH & FILTER CONTROLS */}
+              <div className="flex gap-3 mb-8 flex-wrap">
+                <input 
+                  type="text" 
+                  placeholder="Cari layanan (cth: Berkuda, GMC, Fotografer)..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="flex-1 px-5 py-3 rounded-full border border-[#a7f3d0] text-xs outline-none bg-[#f0fdf4] text-[#022c22]"
+                />
+                <select
+                  value={selectedCity}
+                  onChange={(e) => setSelectedCity(e.target.value)}
+                  className="px-5 py-3 rounded-full border border-[#a7f3d0] text-xs bg-white text-[#064e3b] outline-none cursor-pointer"
+                >
+                  <option value="all">📍 Semua Lokasi</option>
+                  <option value="madinah">Madinah</option>
+                  <option value="makkah">Makkah</option>
+                  <option value="jeddah">Jeddah</option>
+                </select>
+              </div>
+
+              {/* CARDS GRID */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+                {filteredServices.map((service, index) => (
+                  <motion.div
+                    key={service.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: index * 0.1 }}
+                    whileHover={{ y: -6, scale: 1.01 }}
+                    className="bg-white border border-[#a7f3d0] rounded-2xl p-5 shadow-sm flex flex-col justify-between"
+                  >
+                    <div>
+                      <div className="flex justify-between items-center mb-3">
+                        <span className="bg-[#ecfdf5] border border-[#a7f3d0] text-[#064e3b] text-[11px] px-2.5 py-0.5 rounded">
+                          {service.icon} {service.category}
+                        </span>
+                        <span className="text-xs text-[#064e3b]">⭐ {service.rating}</span>
+                      </div>
+                      <h4 className="text-sm font-normal text-[#064e3b] mb-1">{service.title}</h4>
+                      <span className="text-xs text-[#047857] block mb-4">📍 {service.city.toUpperCase()} • {service.vendor}</span>
+                    </div>
+
+                    <div>
+                      <div className="text-base font-normal text-[#064e3b] mb-3">Mulai {service.price}</div>
+                      <button 
+                        onClick={() => setLayanan(`${service.title} (${service.price})`)}
+                        className="w-full bg-[#064e3b] text-white py-2 text-xs rounded-full hover:bg-[#022c22] transition-colors"
+                      >
+                        Pesan via WA ↗
+                      </button>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+
+            </div>
+          </section>
+
+          {/* BOOKING FORM SIMULATOR */}
+          <section id="wa-booking" className="py-16 bg-[#f0fdf4]">
+            <div className="max-w-5xl mx-auto px-6">
+              <div className="text-center mb-8">
+                <h2 className="text-2xl font-light text-[#064e3b] mb-1">Simulasi Booking WhatsApp</h2>
+                <p className="text-xs text-[#047857]">Sistem otomatis menyusun pesan siap kirim ke WhatsApp vendor:</p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* FORM */}
+                <div className="bg-white border border-[#a7f3d0] rounded-2xl p-6 shadow-sm">
+                  <h3 className="text-base font-normal text-[#064e3b] mb-4">Form Rincian Pemesanan</h3>
+                  <form onSubmit={handleBookingSubmit} className="space-y-3">
+                    <div>
+                      <label className="text-xs text-[#064e3b] block mb-1">Nama Pemesan</label>
+                      <input 
+                        type="text" 
+                        value={nama} 
+                        onChange={(e) => setNama(e.target.value)} 
+                        className="w-full px-3 py-2 rounded-lg border border-[#a7f3d0] text-xs outline-none"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="text-xs text-[#064e3b] block mb-1">Layanan Terpilih</label>
+                      <input 
+                        type="text" 
+                        value={layanan} 
+                        onChange={(e) => setLayanan(e.target.value)} 
+                        className="w-full px-3 py-2 rounded-lg border border-[#a7f3d0] text-xs outline-none"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="text-xs text-[#064e3b] block mb-1">Tanggal Kegiatan</label>
+                      <input 
+                        type="date" 
+                        value={tanggal} 
+                        onChange={(e) => setTanggal(e.target.value)} 
+                        className="w-full px-3 py-2 rounded-lg border border-[#a7f3d0] text-xs outline-none"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="text-xs text-[#064e3b] block mb-1">Catatan Tambahan</label>
+                      <textarea 
+                        rows={2} 
+                        value={catatan} 
+                        onChange={(e) => setCatatan(e.target.value)} 
+                        className="w-full px-3 py-2 rounded-lg border border-[#a7f3d0] text-xs outline-none"
+                      />
+                    </div>
+
+                    <button type="submit" className="w-full bg-[#064e3b] text-white py-2.5 rounded-full text-xs hover:bg-[#022c22] transition-colors">
+                      Kirim Pesanan ke WA Vendor ↗
+                    </button>
+                  </form>
+                </div>
+
+                {/* PREVIEW */}
+                <div className="bg-[#ecfdf5] border border-[#064e3b] rounded-2xl p-6">
+                  <h3 className="text-base font-normal text-[#064e3b] mb-4">Live Preview Message (`wa.me`)</h3>
+                  <div className="bg-white border border-[#a7f3d0] rounded-xl p-4 text-xs font-mono text-[#064e3b] leading-relaxed whitespace-pre-wrap">
+{`📲 Rincian Pesanan GALLOP Umroh:
+
+👤 Nama: ${nama}
+📦 Layanan: ${layanan}
+📅 Tanggal: ${tanggal}
+📝 Catatan: ${catatan}
+
+Halo Penyedia Jasa, mohon konfirmasi pesanan. Terima kasih!`}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* TOAST */}
+          <AnimatePresence>
+            {toastVisible && (
+              <motion.div
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 50 }}
+                className="fixed bottom-6 right-6 bg-[#064e3b] text-white px-6 py-3 rounded-full shadow-lg text-xs z-50 flex items-center gap-2"
+              >
+                ✅ Pesan WhatsApp sedang dibuka...
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* FOOTER */}
+          <footer className="py-8 text-center border-t border-[#a7f3d0] text-xs text-[#047857]">
+            <div className="max-w-6xl mx-auto px-6">
+              <p>© 2026 React Motion App — Persembahan Mahakarya dari <strong>Antigravity (Dar Dev)</strong> (Hotline WA: 081311506025).</p>
+            </div>
+          </footer>
+
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>

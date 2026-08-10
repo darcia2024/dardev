@@ -1,0 +1,121 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&display=swap');
+
+:root {
+  --font-main: 'Plus Jakarta Sans', -apple-system, sans-serif;
+  --emerald-900: #064e3b;
+  --emerald-800: #065f46;
+  --emerald-700: #047857;
+  --emerald-600: #059669;
+  --emerald-500: #10b981;
+  --emerald-100: #d1fae5;
+  --emerald-50:  #ecfdf5;
+
+  --bg-main: #ffffff;
+  --text-main: #022c22;
+  --text-muted: #047857;
+  --border-light: #a7f3d0;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-family: var(--font-main);
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* CUSTOM BUTTONS */
+.btn-emerald {
+  background: var(--emerald-900);
+  color: #ffffff;
+  padding: 12px 26px;
+  border-radius: 50px;
+  border: none;
+  font-size: 14px;
+  font-weight: 400;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.btn-emerald:hover {
+  background: #022c22;
+  box-shadow: 0 8px 20px rgba(6, 78, 59, 0.2);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--emerald-900);
+  padding: 12px 26px;
+  border-radius: 50px;
+  border: 1.5px solid var(--emerald-900);
+  font-size: 14px;
+  font-weight: 400;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.btn-outline:hover {
+  background: var(--emerald-900);
+  color: #ffffff;
+}
+
+/* CARDS */
+.glass-card {
+  background: #ffffff;
+  border: 1.5px solid var(--border-light);
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 4px 16px rgba(6, 78, 59, 0.04);
+}
+
+.glass-card-highlight {
+  background: var(--emerald-50);
+  border: 1.5px solid var(--emerald-900);
+  border-radius: 20px;
+  padding: 24px;
+}
+
+/* BADGES */
+.badge-emerald {
+  background: var(--emerald-900);
+  color: #ffffff;
+  padding: 6px 16px;
+  border-radius: 50px;
+  font-size: 11.5px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: inline-block;
+}
